@@ -1,13 +1,14 @@
 [project]
-name = "iplookup"
+name = "ds-iplookup"
 version = "0.1.0"
 description = "IP lookup tool"
 authors = [{ name = "Danny Stewart", email = "danny@stewart.cc" }]
 license = { text = "GPL-3.0-or-later" }
 readme = "README.md"
+packages = [{ include = "ds_iplookup", from = "src" }]
 requires-python = ">=3.12"
 dependencies = [
-    "dsbase (>=0.1.2,<0.2.0)",
+    "dsbase (==0.2.0a3)",
     "pycountry (>=24.6.1,<25.0.0)",
     "requests (>=2.32.3,<3.0.0)",
 ]
@@ -21,4 +22,4 @@ requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [project.scripts]
-iplookup = "iplookup.iplookup:main"
+iplookup = "ds_iplookup.iplookup:main"
