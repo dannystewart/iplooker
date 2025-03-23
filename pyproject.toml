@@ -1,6 +1,6 @@
 [project]
 name = "ds-iplookup"
-version = "0.1.1"
+version = "0.1.2"
 description = "IP lookup tool"
 authors = [{ name = "Danny Stewart", email = "danny@stewart.cc" }]
 license = { text = "MIT" }
