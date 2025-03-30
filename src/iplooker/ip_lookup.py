@@ -12,23 +12,27 @@ API code from their site. But hey, it works!
 
 from __future__ import annotations
 
-import argparse
 import json
 import operator
 from collections import Counter
-from typing import Any, ClassVar
+from typing import TYPE_CHECKING, Any, ClassVar
 
 import pycountry
 import requests
 
+from dsbase import ArgParser, Text
 from dsbase.shell import halo_progress
-from dsbase.text import color, print_colored
-from dsbase.util import handle_interrupt
+from dsbase.util import dsbase_setup, handle_interrupt
 
 from .ip_sources import CITY_NAMES, IP_SOURCES, REGION_NAMES, USA_NAMES
 
+if TYPE_CHECKING:
+    import argparse
+
 TIMEOUT = 2
 MAX_RETRIES = 3
+
+dsbase_setup()
 
 
 class IPLookup:
@@ -55,7 +59,7 @@ class IPLookup:
         ) as spinner:
             for source, config in IP_SOURCES.items():
                 if spinner:
-                    spinner.text = color(f"Querying {source}...", "cyan")
+                    spinner.text = Text.color(f"Querying {source}...", "cyan")
 
                 result = self.process_source(source, config)
                 if result:
@@ -102,11 +106,11 @@ class IPLookup:
     def display_results(self, results: list[dict[str, str]]) -> None:
         """Display the consolidated results and any sources with no data."""
         if results:
-            print_colored(f"\n{color(f'Results for {self.ip_address}:', 'cyan')}", "blue")
+            Text.color_print(f"\n{Text.color(f'Results for {self.ip_address}:', 'cyan')}", "blue")
             self.print_consolidated_results(results)
 
         if self.missing_sources:
-            print_colored(f"\nNo data available from: {', '.join(self.missing_sources)}", "blue")
+            Text.color_print(f"\nNo data available from: {', '.join(self.missing_sources)}", "blue")
 
     def get_ip_info(self, source: str) -> dict[str, Any] | None:
         """Get the IP information from the source."""
@@ -121,10 +125,12 @@ class IPLookup:
                 if response.status_code == 200:
                     return json.loads(response.text)
             except requests.exceptions.Timeout:
-                print(f"\n{color(f'[{source}]', 'blue')} Timeout ({attempt + 1}/{MAX_RETRIES})")
+                print(
+                    f"\n{Text.color(f'[{source}]', 'blue')} Timeout ({attempt + 1}/{MAX_RETRIES})"
+                )
             except requests.exceptions.RequestException as e:
                 print(
-                    f"\n{color(f'[{source}]', 'blue')} {color(f'Failed to get data: {e}', 'red')}"
+                    f"\n{Text.color(f'[{source}]', 'blue')} {Text.color(f'Failed to get data: {e}', 'red')}"
                 )
                 break
 
@@ -171,7 +177,7 @@ class IPLookup:
         # Print consolidated results
         for line, count in sorted_locations:
             if count > 1:
-                print(f"• {color(f'{count} sources:', 'blue')} {line}")
+                print(f"• {Text.color(f'{count} sources:', 'blue')} {line}")
             else:  # Find the source for this unique result
                 source = next(
                     r["source"]
@@ -180,7 +186,7 @@ class IPLookup:
                     + (f" ({r.get('ISP_Org', '')})" if r.get("ISP_Org") else "")
                     == line
                 )
-                print(f"• {color(source + ':', 'blue')} {line}")
+                print(f"• {Text.color(source + ':', 'blue')} {line}")
 
     def standardize_country(self, country: str) -> str:
         """Standardize the country name."""
@@ -220,16 +226,16 @@ class IPLookup:
             response = requests.get("https://api.ipify.org", timeout=TIMEOUT)
             if response.status_code == 200:
                 external_ip = response.text
-                print_colored(f"Your external IP address is: {external_ip}", "blue")
+                Text.color_print(f"Your external IP address is: {external_ip}", "blue")
                 return external_ip
         except requests.exceptions.RequestException as e:
-            print_colored(f"Failed to get external IP: {e}", "red")
+            Text.color_print(f"Failed to get external IP: {e}", "red")
         return None
 
 
 def parse_args() -> argparse.Namespace:
     """Parse command-line arguments."""
-    parser = argparse.ArgumentParser(description="IP address lookup tool")
+    parser = ArgParser(description=__doc__, lines=2)
     group = parser.add_mutually_exclusive_group()
     group.add_argument("ip_address", type=str, nargs="?", help="the IP address to look up")
     group.add_argument("-m", "--me", action="store_true", help="get your external IP address")
@@ -252,7 +258,7 @@ def main() -> None:
         ip_address = args.ip_address or input("Please enter the IP address to look up: ")
 
     if not ip_address:
-        print_colored("No IP address provided.", "red")
+        Text.color_print("No IP address provided.", "red")
         return
 
     IPLookup(ip_address)
