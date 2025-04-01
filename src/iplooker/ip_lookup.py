@@ -20,7 +20,7 @@ from typing import TYPE_CHECKING, Any, ClassVar
 import pycountry
 import requests
 from arguer import Arguer
-from shelper import halo_progress
+from shelper import halo_progress, handle_interrupt
 from textparse import color, print_color
 
 from .ip_sources import CITY_NAMES, IP_SOURCES, REGION_NAMES, USA_NAMES
@@ -238,6 +238,7 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+@handle_interrupt()
 def main() -> None:
     """Main function."""
     args = parse_args()
