@@ -7,16 +7,18 @@ urls = { repository = "https://github.com/dannystewart/iplooker" }
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
+requires-python = ">=3.12,<3.14"
 dependencies = [
-    "dsbase (>=0.4.1,<0.5.0)",
+    "arguer (>=0.1.0,<0.2.0)",
     "pycountry (>=24.6.1,<25.0.0)",
     "requests (>=2.32.3,<3.0.0)",
+    "shelper (>=0.1.0,<0.2.0)",
+    "textparse (>=0.1.0,<0.2.0)",
 ]
 
 [tool.poetry.group.dev.dependencies]
 ruff = ">=0.11.2"
 mypy = ">=1.15.0"
-dsbase = {path = "../dsbase", develop = true}
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
