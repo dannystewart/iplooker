@@ -1,6 +1,6 @@
 [project]
 name = "iplooker"
-version = "0.1.7"
+version = "0.1.8"
 description = "Look up location, ISP, and more about an IP address from multiple sources"
 authors = [{ name = "Danny Stewart", email = "danny@stewart.cc" }]
 urls = { repository = "https://github.com/dannystewart/iplooker" }
@@ -9,8 +9,8 @@ license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.12"
 dependencies = [
-    "logician (>=0.3.3)",
-    "polykit (>=0.1.0)",
+    "logician (>=0.3.4)",
+    "polykit (>=0.1.1)",
     "pycountry (>=24.6.1,<25.0.0)",
     "requests (>=2.32.3,<3.0.0)",
 ]
