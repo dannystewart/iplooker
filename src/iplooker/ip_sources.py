@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from textparse import TextParse
+from polykit.parsers import Text
 
 # IP lookup sources and their data paths and fields
 IP_SOURCES: dict[str, dict[str, Any]] = {
@@ -22,8 +22,8 @@ IP_SOURCES: dict[str, dict[str, Any]] = {
             "country": "country",
             "region": "region",
             "city": "city",
-            "isp": ("isp", TextParse.HTML.strip),
-            "org": ("organization", TextParse.HTML.strip),
+            "isp": ("isp", Text.HTML.strip),
+            "org": ("organization", Text.HTML.strip),
         },
     },
     "dbip": {

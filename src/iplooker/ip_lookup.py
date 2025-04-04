@@ -19,9 +19,9 @@ from typing import TYPE_CHECKING, Any, ClassVar
 
 import pycountry
 import requests
-from arguer import Arguer
-from shelper import halo_progress, handle_interrupt
-from textparse import color, print_color
+from polykit.cli import ArgParser, halo_progress
+from polykit.parsers import color, print_color
+from polykit.shell import handle_interrupt
 
 from .ip_sources import CITY_NAMES, IP_SOURCES, REGION_NAMES, USA_NAMES
 
@@ -230,7 +230,7 @@ class IPLookup:
 
 def parse_args() -> argparse.Namespace:
     """Parse command-line arguments."""
-    parser = Arguer(description=__doc__, lines=2)
+    parser = ArgParser(description=__doc__, lines=2)
     group = parser.add_mutually_exclusive_group()
     group.add_argument("ip_address", type=str, nargs="?", help="the IP address to look up")
     group.add_argument("-m", "--me", action="store_true", help="get your external IP address")

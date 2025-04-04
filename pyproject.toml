@@ -9,23 +9,33 @@ license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.12"
 dependencies = [
+    "logician (>=0.3.3)",
+    "polykit (>=0.1.0)",
     "pycountry (>=24.6.1,<25.0.0)",
-    "devpkg (>=0.2.0)",
     "requests (>=2.32.3,<3.0.0)",
-    "textparse (>=0.1.2)",
-    "arguer (>=0.1.1,<0.2.0)",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Networking",
+    "Topic :: Utilities",
 ]
 
 [tool.poetry.group.dev.dependencies]
-ruff = ">=0.11.2"
+ruff = ">=0.11.4"
 mypy = ">=1.15.0"
-arguer = { path = "../arguer", develop = true }
-devpkg = { path = "../devpkg", develop = true }
 enviromancer = { path = "../enviromancer", develop = true }
 logician = { path = "../logician", develop = true }
-shelper = { path = "../shelper", develop = true }
-textparse = { path = "../textparse", develop = true }
-timecapsule = { path = "../timecapsule", develop = true }
+polykit = { path = "../polykit", develop = true }
 walking-man = { path = "../walking-man", develop = true }
 
 [build-system]
