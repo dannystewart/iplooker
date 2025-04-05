@@ -9,8 +9,7 @@ license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.12"
 dependencies = [
-    "logician (>=0.3.4)",
-    "polykit (>=0.1.1)",
+    "polykit (>=0.6.0)",
     "pycountry (>=24.6.1,<25.0.0)",
     "requests (>=2.32.3,<3.0.0)",
 ]
@@ -33,10 +32,7 @@ classifiers = [
 [tool.poetry.group.dev.dependencies]
 ruff = ">=0.11.4"
 mypy = ">=1.15.0"
-enviromancer = { path = "../enviromancer", develop = true }
-logician = { path = "../logician", develop = true }
 polykit = { path = "../polykit", develop = true }
-walking-man = { path = "../walking-man", develop = true }
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

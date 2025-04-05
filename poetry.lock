@@ -127,25 +127,6 @@ files = [
 ]
 
 [[package]]
-name = "enviromancer"
-version = "0.1.7"
-description = "Gain mastery over your environment variables"
-optional = false
-python-versions = ">=3.12"
-groups = ["dev"]
-files = []
-develop = true
-
-[package.dependencies]
-logician = ">=0.3.4"
-polykit = ">=0.1.1"
-python-dotenv = ">=1.1.0"
-
-[package.source]
-type = "directory"
-url = "../enviromancer"
-
-[[package]]
 name = "halo"
 version = "0.0.31"
 description = "Beautiful terminal spinners in Python"
@@ -196,23 +177,6 @@ files = [
 
 [package.dependencies]
 colorama = ">=0.3.9"
-
-[[package]]
-name = "logician"
-version = "0.3.4"
-description = "The logical choice for Python logging"
-optional = false
-python-versions = ">=3.12"
-groups = ["main", "dev"]
-files = []
-develop = true
-
-[package.dependencies]
-polykit = ">=0.1.1"
-
-[package.source]
-type = "directory"
-url = "../logician"
 
 [[package]]
 name = "mypy"
@@ -292,8 +256,25 @@ files = [
 ]
 
 [[package]]
+name = "platformdirs"
+version = "4.3.7"
+description = "A small Python package for determining appropriate platform-specific dirs, e.g. a `user data dir`."
+optional = false
+python-versions = ">=3.9"
+groups = ["main", "dev"]
+files = [
+    {file = "platformdirs-4.3.7-py3-none-any.whl", hash = "sha256:a03875334331946f13c549dbd8f4bac7a13a50a895a0eb1e8c6a8ace80d40a94"},
+    {file = "platformdirs-4.3.7.tar.gz", hash = "sha256:eb437d586b6a0986388f0d6f74aa0cde27b48d0e3d66843640bfb6bdcdb6e351"},
+]
+
+[package.extras]
+docs = ["furo (>=2024.8.6)", "proselint (>=0.14)", "sphinx (>=8.1.3)", "sphinx-autodoc-typehints (>=3)"]
+test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=8.3.4)", "pytest-cov (>=6)", "pytest-mock (>=3.14)"]
+type = ["mypy (>=1.14.1)"]
+
+[[package]]
 name = "polykit"
-version = "0.1.1"
+version = "0.6.0"
 description = "Python toolkit"
 optional = false
 python-versions = ">=3.12"
@@ -303,9 +284,10 @@ develop = true
 
 [package.dependencies]
 halo = ">=0.0.31"
-logician = ">=0.3.4"
 packaging = ">=24.2"
-python-dateutil = ">=2.9.0.post0,<3.0.0"
+platformdirs = ">=4.3.7"
+python-dateutil = ">=2.9.0.post0"
+python-dotenv = ">=1.1.0"
 requests = ">=2.32.3"
 tzlocal = ">=5.3.1"
 
@@ -346,7 +328,7 @@ version = "1.1.0"
 description = "Read key-value pairs from a .env file and set them as environment variables"
 optional = false
 python-versions = ">=3.9"
-groups = ["dev"]
+groups = ["main", "dev"]
 files = [
     {file = "python_dotenv-1.1.0-py3-none-any.whl", hash = "sha256:d7c01d9e2293916c18baf562d95698754b0dbbb5e74d457c45d4f6561fb9d55d"},
     {file = "python_dotenv-1.1.0.tar.gz", hash = "sha256:41f90bc6f5f177fb41f53e87666db362025010eb28f60a01c9143bfa33a2b2d5"},
@@ -505,24 +487,7 @@ h2 = ["h2 (>=4,<5)"]
 socks = ["pysocks (>=1.5.6,!=1.5.7,<2.0)"]
 zstd = ["zstandard (>=0.18.0)"]
 
-[[package]]
-name = "walking-man"
-version = "0.2.8"
-description = "A friendly companion while you wait"
-optional = false
-python-versions = ">=3.12"
-groups = ["dev"]
-files = []
-develop = true
-
-[package.dependencies]
-polykit = ">=0.1.1"
-
-[package.source]
-type = "directory"
-url = "../walking-man"
-
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12"
-content-hash = "4201fe982fac2f14a678d2659583352643a3e877936bd92c7424e3c8f5fffa0e"
+content-hash = "3f7f0612a055ce5d0d73990bf59d783190e45322814a6176f64c22fb6a752879"
