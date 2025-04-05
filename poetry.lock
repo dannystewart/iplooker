@@ -244,6 +244,22 @@ files = [
 ]
 
 [[package]]
+name = "natsort"
+version = "8.4.0"
+description = "Simple yet flexible natural sorting in Python."
+optional = false
+python-versions = ">=3.7"
+groups = ["main", "dev"]
+files = [
+    {file = "natsort-8.4.0-py3-none-any.whl", hash = "sha256:4732914fb471f56b5cce04d7bae6f164a592c7712e1c85f9ef585e197299521c"},
+    {file = "natsort-8.4.0.tar.gz", hash = "sha256:45312c4a0e5507593da193dedd04abb1469253b601ecaf63445ad80f0a1ea581"},
+]
+
+[package.extras]
+fast = ["fastnumbers (>=2.0.0)"]
+icu = ["PyICU (>=1.0.0)"]
+
+[[package]]
 name = "packaging"
 version = "24.2"
 description = "Core utilities for Python packages"
@@ -274,7 +290,7 @@ type = ["mypy (>=1.14.1)"]
 
 [[package]]
 name = "polykit"
-version = "0.6.0"
+version = "0.7.0"
 description = "Python toolkit"
 optional = false
 python-versions = ">=3.12"
@@ -284,11 +300,13 @@ develop = true
 
 [package.dependencies]
 halo = ">=0.0.31"
+natsort = ">=8.4.0,<9.0.0"
 packaging = ">=24.2"
 platformdirs = ">=4.3.7"
 python-dateutil = ">=2.9.0.post0"
 python-dotenv = ">=1.1.0"
 requests = ">=2.32.3"
+send2trash = ">=1.8.3,<2.0.0"
 tzlocal = ">=5.3.1"
 
 [package.source]
@@ -386,6 +404,23 @@ files = [
     {file = "ruff-0.11.4-py3-none-win_arm64.whl", hash = "sha256:d435db6b9b93d02934cf61ef332e66af82da6d8c69aefdea5994c89997c7a0fc"},
     {file = "ruff-0.11.4.tar.gz", hash = "sha256:f45bd2fb1a56a5a85fae3b95add03fb185a0b30cf47f5edc92aa0355ca1d7407"},
 ]
+
+[[package]]
+name = "send2trash"
+version = "1.8.3"
+description = "Send file to trash natively under Mac OS X, Windows and Linux"
+optional = false
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,>=2.7"
+groups = ["main", "dev"]
+files = [
+    {file = "Send2Trash-1.8.3-py3-none-any.whl", hash = "sha256:0c31227e0bd08961c7665474a3d1ef7193929fedda4233843689baa056be46c9"},
+    {file = "Send2Trash-1.8.3.tar.gz", hash = "sha256:b18e7a3966d99871aefeb00cfbcfdced55ce4871194810fc71f4aa484b953abf"},
+]
+
+[package.extras]
+nativelib = ["pyobjc-framework-Cocoa ; sys_platform == \"darwin\"", "pywin32 ; sys_platform == \"win32\""]
+objc = ["pyobjc-framework-Cocoa ; sys_platform == \"darwin\""]
+win32 = ["pywin32 ; sys_platform == \"win32\""]
 
 [[package]]
 name = "six"
@@ -490,4 +525,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12"
-content-hash = "3f7f0612a055ce5d0d73990bf59d783190e45322814a6176f64c22fb6a752879"
+content-hash = "0ae46f3ad7c7b1323e6c60a3392c0652fdf66b5705163aec2382a24490b9db9b"
