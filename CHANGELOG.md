@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 
 ## [Unreleased]
 
+## [0.1.10] (2025-04-05)
+
+### Changed
+
+- Updates dependencies by removing unused packages and upgrading `polykit` to version 0.6.0.
+- Updates import paths from `polykit.parsers` to `polykit.formatters` for improved clarity and functionality.
+
+### Added
+
+- Adds settings for conventional commit scopes to improve commit consistency.
+
+### Removed
+
+- Removes unused packages to streamline the codebase.
+
 ## [0.1.9] (2025-04-04)
 
 ### Added
@@ -42,6 +57,7 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
 <!-- Versions -->
-[unreleased]: https://github.com/dannystewart/iplooker/compare/v0.1.9...HEAD
+[unreleased]: https://github.com/dannystewart/iplooker/compare/v0.1.10...HEAD
+[0.1.10]: https://github.com/dannystewart/iplooker/compare/v0.1.9...v0.1.10
 [0.1.9]: https://github.com/dannystewart/iplooker/releases/tag/v0.1.9
 [0.1.8]: https://github.com/dannystewart/iplooker/compare/v0.1.9...v0.1.8
