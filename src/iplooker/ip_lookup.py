@@ -20,7 +20,7 @@ from typing import TYPE_CHECKING, Any, ClassVar
 import pycountry
 import requests
 from polykit.cli import ArgParser, halo_progress
-from polykit.parsers import color, print_color
+from polykit.formatters import color, print_color
 from polykit.shell import handle_interrupt
 
 from .ip_sources import CITY_NAMES, IP_SOURCES, REGION_NAMES, USA_NAMES
