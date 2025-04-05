@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 
 ## [Unreleased]
 
+## [0.1.11] (2025-04-05)
+
+### Changed
+
+- Updates `polykit` to version 0.7.0 to incorporate new features and improve dependency management.
+- Modifies `pyproject.toml` and `poetry.lock` to reflect updated and new dependencies.
+- Updates changelog for v0.1.10 with details on dependency updates, import path adjustments, and new conventional commit scope settings.
+- Updates version links in the changelog for the v0.1.10 release.
+
+### Removed
+
+- Removes unused packages to improve maintainability.
+
 ## [0.1.10] (2025-04-05)
 
 ### Changed
@@ -57,7 +70,8 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
 <!-- Versions -->
-[unreleased]: https://github.com/dannystewart/iplooker/compare/v0.1.10...HEAD
+[unreleased]: https://github.com/dannystewart/iplooker/compare/v0.1.11...HEAD
+[0.1.11]: https://github.com/dannystewart/iplooker/compare/v0.1.10...v0.1.11
 [0.1.10]: https://github.com/dannystewart/iplooker/compare/v0.1.9...v0.1.10
 [0.1.9]: https://github.com/dannystewart/iplooker/releases/tag/v0.1.9
 [0.1.8]: https://github.com/dannystewart/iplooker/compare/v0.1.9...v0.1.8
