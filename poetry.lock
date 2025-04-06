@@ -394,7 +394,7 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "polykit"
-version = "0.7.0"
+version = "0.7.1"
 description = "Python toolkit"
 optional = false
 python-versions = ">=3.12"
@@ -687,4 +687,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12"
-content-hash = "e3da063ec4bc51f46bb98b8e8cdf34d0b5f327f679f1b49fd051f5edfa2380e9"
+content-hash = "3f2d0b1526ac9bc2a1d38ef1a74f14706f8e1bbe6a219469724c13c5a2f8a246"
