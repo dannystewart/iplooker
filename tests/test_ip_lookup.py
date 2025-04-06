@@ -1,5 +1,6 @@
 # type: ignore[reportMissingParamType]
 
+from typing import Literal
 import pytest
 from unittest.mock import patch, MagicMock
 import json
@@ -30,7 +31,7 @@ class TestIPLookup:
         }
 
     @patch("iplooker.ip_lookup.requests.post")
-    def test_get_ip_info(self, mock_post, sample_ip, mock_response):
+    def test_get_ip_info(self, mock_post, sample_ip: Literal['8.8.8.8'], mock_response: dict[str, dict[str, str]]):
         """Test the get_ip_info method."""
         # Setup mock response
         mock_response_obj = MagicMock()
@@ -48,7 +49,7 @@ class TestIPLookup:
         assert result == mock_response
         mock_post.assert_called_once()
 
-    def test_standardize_country(self, sample_ip):
+    def test_standardize_country(self, sample_ip: Literal['8.8.8.8']):
         """Test the standardize_country method."""
         lookup = IPLookup(sample_ip, do_lookup=False)
 
@@ -58,7 +59,7 @@ class TestIPLookup:
         assert lookup.standardize_country("GB") == "United Kingdom"
         assert lookup.standardize_country("Random") == "Random"
 
-    def test_format_ip_data(self, sample_ip):
+    def test_format_ip_data(self, sample_ip: Literal['8.8.8.8']):
         """Test the format_ip_data method."""
         lookup = IPLookup(sample_ip, do_lookup=False)
 
@@ -96,7 +97,7 @@ class TestIPLookup:
         assert result == "1.2.3.4"
         mock_get.assert_called_once_with("https://api.ipify.org", timeout=2)
 
-    def test_standardize_isp_and_org(self, sample_ip):
+    def test_standardize_isp_and_org(self, sample_ip: Literal['8.8.8.8']):
         """Test the ISP and org standardization."""
         lookup = IPLookup(sample_ip, do_lookup=False)
 
@@ -109,7 +110,7 @@ class TestIPLookup:
     @patch("iplooker.ip_lookup.IPLookup.process_source")
     @patch("iplooker.ip_lookup.IPLookup.display_results")
     @patch("iplooker.ip_lookup.halo_progress")
-    def test_perform_ip_lookup(self, mock_halo, mock_display, mock_process, sample_ip):
+    def test_perform_ip_lookup(self, mock_halo, mock_display, mock_process, sample_ip: Literal['8.8.8.8']):
         """Test the main lookup workflow."""
         # Setup
         lookup = IPLookup(sample_ip, do_lookup=False)
