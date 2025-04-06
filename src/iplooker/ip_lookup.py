@@ -203,6 +203,9 @@ class IPLookup:
 
     def standardize_isp_and_org(self, isp: str, org: str) -> str | None:
         """Standardize the ISP and organization names."""
+        original_isp = isp
+        original_org = org
+
         if "comcast" in isp.lower():
             isp = "Comcast"
         if "comcast" in org.lower():
@@ -210,7 +213,7 @@ class IPLookup:
 
         if isp and isp not in {"Unknown ISP", ""}:
             if org and org not in {"Unknown Org", ""}:
-                return isp if isp == org else f"{isp} / {org}"
+                return isp if original_isp.lower() == original_org.lower() else f"{isp} / {org}"
             return isp
         return org if org and org not in {"Unknown Org", ""} else None
 
