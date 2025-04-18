@@ -9,7 +9,7 @@ license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.12"
 dependencies = [
-    "polykit (>=0.8.0)",
+    "polykit (>=0.10.2)",
     "pycountry (>=24.6.1,<25.0.0)",
     "requests (>=2.32.3,<3.0.0)",
 ]
@@ -30,7 +30,7 @@ classifiers = [
 ]
 
 [tool.poetry.group.dev.dependencies]
-ruff = ">=0.11.4"
+ruff = ">=0.11.6"
 mypy = ">=1.15.0"
 polykit = { path = "../polykit", develop = true }
 pytest = "^8.3.5"
