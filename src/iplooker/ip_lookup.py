@@ -19,9 +19,8 @@ from typing import TYPE_CHECKING, Any, ClassVar
 
 import pycountry
 import requests
-from polykit.cli import PolyArgs, halo_progress
+from polykit.cli import PolyArgs, halo_progress, handle_interrupt
 from polykit.formatters import color, print_color
-from polykit.shell import handle_interrupt
 
 from .ip_sources import CITY_NAMES, IP_SOURCES, REGION_NAMES, USA_NAMES
 
