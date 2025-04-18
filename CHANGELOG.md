@@ -6,9 +6,15 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 
 ## [Unreleased]
 
+### Added
+
+- Adds Tokyo Night theme files for the documentation. Documentation which does not currently exist, but may at some point.
+
 ### Changed
 
-- Updates `polykit` dependency to v0.8.0 for improved compatibility.
+- Upgrades `polykit` requirement from >=0.8.0 to >=0.10.2.
+- Updates several dependencies including `ruff` (0.11.4 → 0.11.6), `typing-extensions` (4.13.1 → 4.13.2), and `urllib3` (2.3.0 → 2.4.0).
+- Updates pre-commit config formatting for consistency, because inconsistent formatting is the root of all evil.
 
 ## [0.1.12] (2025-04-05)
 
