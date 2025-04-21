@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 
 ## [Unreleased]
 
+## [0.1.13] (2025-04-21)
+
 ### Added
 
 - Adds Tokyo Night theme files for the documentation. Documentation which does not currently exist, but may at some point.
@@ -15,6 +17,10 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 - Upgrades `polykit` requirement from >=0.8.0 to >=0.10.2.
 - Updates several dependencies including `ruff` (0.11.4 → 0.11.6), `typing-extensions` (4.13.1 → 4.13.2), and `urllib3` (2.3.0 → 2.4.0).
 - Updates pre-commit config formatting for consistency, because inconsistent formatting is the root of all evil.
+
+### Fixed
+
+- Fixed compatibility with newer versions of `polykit` now that `handle_interrupt` is in `polykit.cli`.
 
 ## [0.1.12] (2025-04-05)
 
@@ -100,9 +106,10 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
 <!-- Versions -->
-[unreleased]: https://github.com/dannystewart/iplooker/compare/v0.1.12...HEAD
+[unreleased]: https://github.com/dannystewart/iplooker/compare/v0.1.13...HEAD
+[0.1.13]: https://github.com/dannystewart/iplooker/compare/v0.1.12...v0.1.13
 [0.1.12]: https://github.com/dannystewart/iplooker/compare/v0.1.11...v0.1.12
 [0.1.11]: https://github.com/dannystewart/iplooker/compare/v0.1.10...v0.1.11
 [0.1.10]: https://github.com/dannystewart/iplooker/compare/v0.1.9...v0.1.10
 [0.1.9]: https://github.com/dannystewart/iplooker/releases/tag/v0.1.9
-[0.1.8]: https://github.com/dannystewart/iplooker/compare/v0.1.9...v0.1.8
+[0.1.8]: https://github.com/dannystewart/iplooker/releases/tag/v0.1.8
