@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 class IPAPILookup(IPLookupSource):
     """Perform IP lookups using the IP-API.com service."""
 
-    SOURCE_NAME = "ip-api"
+    SOURCE_NAME = "ip-api.com"
     API_URL = "http://ip-api.com/json/{ip}"
 
     @classmethod

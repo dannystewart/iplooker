@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 class IPRegistryLookup(IPLookupSource):
     """Perform IP lookups using the IPRegistry API."""
 
-    SOURCE_NAME = "ipregistry"
+    SOURCE_NAME = "ipregistry.co"
     API_URL = "https://api.ipregistry.co/{ip}"
 
     @classmethod
