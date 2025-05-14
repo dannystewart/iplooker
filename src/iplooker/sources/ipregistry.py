@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
+from polykit.formatters import print_color
+
 from iplooker.api_key_manager import APIKeyManager
 from iplooker.lookup_result import IPLookupResult
 from iplooker.lookup_source import IPLookupSource
@@ -25,7 +27,7 @@ class IPRegistryLookup(IPLookupSource):
 
         api_key = APIKeyManager.get_key(cls.SOURCE_NAME)
         if not api_key:
-            print(f"No API key available for {cls.SOURCE_NAME}")
+            print_color(f" No API key available for {cls.SOURCE_NAME}", "red")
             return None
 
         url = cls.API_URL.format(ip=ip)
