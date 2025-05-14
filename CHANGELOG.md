@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 
 ## [Unreleased]
 
+## [0.1.14] (2025-05-14)
+
+### Changed
+
+- Updates Poetry from 2.1.2 to 2.1.3 and refreshes various dependencies to their latest versions.
+- Improves user experience when no IP lookup results are found by displaying a warning message with suggestions.
+
+### Fixed
+
+- Fixes handling of sources with errors by properly tracking them as missing sources.
+
 ## [0.1.13] (2025-04-21)
 
 ### Added
@@ -106,7 +117,8 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
 <!-- Versions -->
-[unreleased]: https://github.com/dannystewart/iplooker/compare/v0.1.13...HEAD
+[unreleased]: https://github.com/dannystewart/iplooker/compare/v0.1.14...HEAD
+[0.1.14]: https://github.com/dannystewart/iplooker/compare/v0.1.13...v0.1.14
 [0.1.13]: https://github.com/dannystewart/iplooker/compare/v0.1.12...v0.1.13
 [0.1.12]: https://github.com/dannystewart/iplooker/compare/v0.1.11...v0.1.12
 [0.1.11]: https://github.com/dannystewart/iplooker/compare/v0.1.10...v0.1.11
