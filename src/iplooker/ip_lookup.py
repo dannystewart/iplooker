@@ -2,12 +2,9 @@
 
 """Does an IP lookup using multiple sources.
 
-This script is designed to do an IP lookup using multiple sources. It can be used to get
+This script is designed to do an IP lookup via iplocation.net. It can be used to get
 more information about an IP address, including the country, region, city, ISP, and
 organization. It collates the information and combines sources that say the same thing.
-
-It uses the sources from https://www.iplocation.net, because I totally just scraped the
-API code from their site. But hey, it works!
 """
 
 from __future__ import annotations
@@ -102,9 +99,19 @@ class IPLookup:
 
     def display_results(self, results: list[dict[str, str]]) -> None:
         """Display the consolidated results and any sources with no data."""
-        if results:
-            print_color(f"\n{color(f'Results for {self.ip_address}:', 'cyan')}", "blue")
-            self.print_consolidated_results(results)
+        if not results:
+            print_color(
+                "\n⚠️  WARNING: No sources returned results. The service may be blocking automated requests.",
+                "yellow",
+            )
+            print_color(
+                "You can try again later or visit iplocation.net in your browser in the meantime.",
+                "yellow",
+            )
+            return
+
+        print_color(f"\n{color(f'Results for {self.ip_address}:', 'cyan')}", "blue")
+        self.print_consolidated_results(results)
 
         if self.missing_sources:
             print_color(f"\nNo data available from: {', '.join(self.missing_sources)}", "blue")
