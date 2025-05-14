@@ -67,6 +67,7 @@ class IPLookup:
         """Process a single IP data source. Returns formatted data or None if no data."""
         result = self.get_ip_info(source)
         if not result:
+            self.missing_sources.append(source)
             return None
 
         data = result
