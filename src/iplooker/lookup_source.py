@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Any, ClassVar
 import requests
 
 if TYPE_CHECKING:
-    from iplooker.result import IPLookupResult
+    from iplooker.lookup_result import IPLookupResult
 
 
 class IPLookupSource(ABC):
