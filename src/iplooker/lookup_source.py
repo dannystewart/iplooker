@@ -5,6 +5,7 @@ from ipaddress import IPv4Address
 from typing import TYPE_CHECKING, Any, ClassVar
 
 import requests
+from polykit.formatters import print_color
 
 if TYPE_CHECKING:
     from iplooker.lookup_result import IPLookupResult
@@ -51,10 +52,19 @@ class IPLookupSource(ABC):
         """
         try:
             response = requests.get(url, params=params, headers=headers, timeout=cls.TIMEOUT)
+
+            if response.status_code == 429:
+                print_color(
+                    f" {cls.SOURCE_NAME} rate limit exceeded. Please try again later.", "yellow"
+                )
+                return None
+
             if response.status_code == 200:
                 return response.json()
+
             print(f"{cls.SOURCE_NAME} API error: {response.status_code} - {response.text[:100]}")
             return None
+
         except requests.RequestException as e:
             print(f"Request error during {cls.SOURCE_NAME} lookup: {e}")
             return None
