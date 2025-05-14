@@ -7,14 +7,36 @@ from typing import TYPE_CHECKING, ClassVar
 import pycountry
 from polykit.formatters import color
 
-from iplooker.ip_sources import CITY_NAMES, REGION_NAMES, USA_NAMES
-
 if TYPE_CHECKING:
     from iplooker.lookup_result import IPLookupResult
 
 
 class IPFormatter:
     """Format IP results returned by lookups."""
+
+    # Variations of United States country names to be standardized
+    USA_NAMES: ClassVar[set[str]] = {
+        "us",
+        "usa",
+        "united states",
+        "united states of america",
+    }
+
+    # Variations of Washington, D.C. region names to be standardized
+    REGION_NAMES: ClassVar[set[str]] = {
+        "washington, d.c.",
+        "district of columbia",
+        "d.c.",
+        "dc",
+    }
+
+    # Variations of city names to be standardized
+    CITY_NAMES: ClassVar[set[str]] = {
+        "washington d.c.",
+        "washington d.c. (northeast washington)",
+        "washington d.c. (northwest washington)",
+        "new york city",
+    }
 
     # Omit these values entirely if they start with "Unknown"
     OMIT_IF_UNKNOWN: ClassVar[set[str]] = {"region", "isp", "org"}
@@ -80,13 +102,13 @@ class IPFormatter:
                 return country_obj.name if country_obj is not None else country
             except (AttributeError, KeyError):
                 return country
-        return "US" if country.lower() in USA_NAMES else country
+        return "US" if country.lower() in self.USA_NAMES else country
 
     def standardize_region_and_city(self, region: str, city: str) -> tuple[str, str]:
         """Standardize the region and city names."""
-        if region.lower() in REGION_NAMES:
+        if region.lower() in self.REGION_NAMES:
             region = "DC"
-        if city.lower() in CITY_NAMES:
+        if city.lower() in self.CITY_NAMES:
             city = "Washington" if "washington" in city.lower() else "New York"
         return region, city
 
