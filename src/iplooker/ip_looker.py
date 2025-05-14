@@ -17,6 +17,7 @@ from polykit.formatters import color, print_color
 from iplooker.ip_formatter import IPFormatter
 from iplooker.sources.ipapi import IPAPILookup
 from iplooker.sources.ipapico import IPAPICoLookup
+from iplooker.sources.ipapiis import IPAPIIsLookup
 from iplooker.sources.ipregistry import IPRegistryLookup
 
 if TYPE_CHECKING:
@@ -34,6 +35,7 @@ class IPLooker:
     # List of lookup sources to use
     LOOKUP_SOURCES: ClassVar[list[type[IPLookupSource]]] = [
         IPAPICoLookup,
+        IPAPIIsLookup,
         IPAPILookup,
         IPRegistryLookup,
     ]
