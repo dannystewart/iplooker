@@ -2,12 +2,15 @@ from __future__ import annotations
 
 import operator
 from collections import Counter
-from typing import Any, ClassVar
+from typing import TYPE_CHECKING, ClassVar
 
 import pycountry
 from polykit.formatters import color
 
 from iplooker.ip_sources import CITY_NAMES, REGION_NAMES, USA_NAMES
+
+if TYPE_CHECKING:
+    from iplooker.lookup_result import IPLookupResult
 
 
 class IPFormatter:
@@ -19,35 +22,11 @@ class IPFormatter:
     def __init__(self, ip_address: str):
         self.ip_address: str = ip_address
 
-    def extract_field_data(
-        self, data: dict[str, Any], fields: dict[str, str | tuple[str, Any]]
-    ) -> dict[str, str]:
-        """Extract and format field data from source response."""
-        formatted_data = {}
-        for key, value in fields.items():
-            if isinstance(value, tuple):
-                value, _ = value
-
-            # Get the value from the data
-            retrieved_value = data.get(value, "")
-
-            # If empty or starts with "Unknown", set it to an empty string for formatting
-            if not retrieved_value or retrieved_value.startswith("Unknown"):
-                retrieved_value = (
-                    "" if key in self.OMIT_IF_UNKNOWN else f"Unknown {key.capitalize()}"
-                )
-
-            formatted_data[key] = retrieved_value
-
-        return formatted_data
-
-    def format_ip_data(
-        self, source: str, country: str, region: str, city: str, isp: str, org: str
-    ) -> dict[str, str]:
-        """Standardizes and formats the IP data."""
-        country = self.standardize_country(country)
-        region, city = self.standardize_region_and_city(region, city)
-        isp_org = self.standardize_isp_and_org(isp, org)
+    def format_lookup_result(self, result: IPLookupResult) -> dict[str, str]:
+        """Convert a LookupResult to the format expected by print_consolidated_results."""
+        country = self.standardize_country(result.country or "")
+        region, city = self.standardize_region_and_city(result.region or "", result.city or "")
+        isp_org = self.standardize_isp_and_org(result.isp or "", result.org or "")
 
         # Build location string based on available data
         location_parts = []
@@ -60,7 +39,7 @@ class IPFormatter:
 
         location = ", ".join(location_parts) if location_parts else "Unknown Location"
 
-        formatted_data = {"source": source, "location": location}
+        formatted_data = {"source": result.source, "location": location}
         if isp_org:
             formatted_data["ISP_Org"] = isp_org
 

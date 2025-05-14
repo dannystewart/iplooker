@@ -1,6 +1,6 @@
 [project]
 name = "iplooker"
-version = "0.1.15.dev"
+version = "0.2.0.dev"
 description = "Look up location, ISP, and more about an IP address from multiple sources"
 authors = [{ name = "Danny Stewart", email = "danny@stewart.cc" }]
 urls = { repository = "https://github.com/dannystewart/iplooker" }
@@ -30,16 +30,13 @@ classifiers = [
 ]
 
 [tool.poetry.group.dev.dependencies]
-ruff = ">=0.11.9"
 mypy = ">=1.15.0"
 polykit = { path = "../polykit", develop = true }
-pytest = "^8.3.5"
-pytest-cov = "^6.1.1"
-pytest-mock = "^3.14.0"
+ruff = ">=0.11.9"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [project.scripts]
-iplooker = "iplooker.ip_lookup:main"
+iplooker = "iplooker.ip_looker:main"
