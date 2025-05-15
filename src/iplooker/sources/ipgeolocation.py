@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     from ipaddress import IPv4Address
 
 
-class IPGeoLocationLookup(IPLookupSource):
+class IPGeolocationLookup(IPLookupSource):
     """Perform IP lookups using the ipgeolocation.io service."""
 
     SOURCE_NAME = "ipgeolocation.io"

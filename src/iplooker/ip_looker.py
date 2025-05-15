@@ -15,14 +15,16 @@ from polykit.cli import PolyArgs, halo_progress, handle_interrupt
 from polykit.formatters import color, print_color
 
 from iplooker.ip_formatter import IPFormatter
-from iplooker.sources.ipapi import IPAPILookup
-from iplooker.sources.ipapico import IPAPICoLookup
-from iplooker.sources.ipapiis import IPAPIIsLookup
-from iplooker.sources.ipdata import IPDataLookup
-from iplooker.sources.ipgeolocation import IPGeoLocationLookup
-from iplooker.sources.ipinfo import IPInfoLookup
-from iplooker.sources.iplocate import IPLocateLookup
-from iplooker.sources.ipregistry import IPRegistryLookup
+from iplooker.sources import (
+    IPAPICoLookup,
+    IPAPIIsLookup,
+    IPAPILookup,
+    IPDataLookup,
+    IPGeolocationLookup,
+    IPInfoLookup,
+    IPLocateLookup,
+    IPRegistryLookup,
+)
 
 if TYPE_CHECKING:
     import argparse
@@ -42,7 +44,7 @@ class IPLooker:
         IPAPIIsLookup,
         IPAPILookup,
         IPDataLookup,
-        IPGeoLocationLookup,
+        IPGeolocationLookup,
         IPInfoLookup,
         IPLocateLookup,
         IPRegistryLookup,
