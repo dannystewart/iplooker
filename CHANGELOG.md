@@ -13,7 +13,7 @@ Version 0.2.0 is a near total rewrite.
 ### Added
 
 - No longer scrapes results from iplocation.net, as they appear to have blocked automated lookups. (Sorry, guys!)
-- Now uses proper APIs directly from six IP lookup service providers:
+- Now uses proper APIs directly from seven IP lookup service providers:
   - ip-api.com
   - ipapi.co
   - ipapi.is
