@@ -69,4 +69,13 @@ class IPAPIIsLookup(IPLookupSource):
         elif not result.isp and (asn := data.get("asn", {})):
             result.isp = asn.get("domain")
 
+        # Security information
+        result.is_vpn = data.get("is_vpn")
+        result.is_proxy = data.get("is_proxy")
+        result.is_tor = data.get("is_tor")
+        result.is_datacenter = data.get("is_datacenter")
+
+        if (vpn := data.get("vpn", {})) and vpn.get("is_vpn") and vpn.get("service"):
+            result.vpn_service = vpn.get("service")
+
         return result

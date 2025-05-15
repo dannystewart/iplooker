@@ -63,4 +63,12 @@ class IPRegistryLookup(IPLookupSource):
         elif company := data.get("company", {}):
             result.org = company.get("name")
 
+        # Extract security information
+        if security := data.get("security", {}):
+            result.is_vpn = security.get("is_vpn")
+            result.is_proxy = security.get("is_proxy")
+            result.is_tor = security.get("is_tor")
+            result.is_datacenter = security.get("is_cloud_provider")
+            result.is_anonymous = security.get("is_anonymous")
+
         return result

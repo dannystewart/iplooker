@@ -82,4 +82,12 @@ class IPInfoLookup(IPLookupSource):
                 _, isp_name = asn.split(" ", 1)
                 result.isp = isp_name
 
+        # Security information
+        if privacy := data.get("privacy", {}):
+            result.is_vpn = privacy.get("vpn")
+            result.is_proxy = privacy.get("proxy")
+            result.is_tor = privacy.get("tor")
+            result.is_datacenter = privacy.get("hosting")
+            result.vpn_service = privacy.get("service") or None
+
         return result

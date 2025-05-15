@@ -45,7 +45,7 @@ class IPFormatter:
         self.ip_address: str = ip_address
 
     def format_lookup_result(self, result: IPLookupResult) -> dict[str, str]:
-        """Convert a LookupResult to the format expected by print_consolidated_results."""
+        """Convert an IPLookupResult to the expected output format."""
         country = self.standardize_country(result.country or "")
         region, city = self.standardize_region_and_city(result.region or "", result.city or "")
         isp_org = self.standardize_isp_and_org(result.isp or "", result.org or "")
@@ -65,20 +65,57 @@ class IPFormatter:
         if isp_org:
             formatted_data["ISP_Org"] = isp_org
 
+        # Add security information if available
+        if security_info := self.get_security_info(result):
+            formatted_data["security"] = ", ".join(security_info)
+
         return formatted_data
+
+    def get_security_info(self, result: IPLookupResult) -> list[str]:
+        """Get security information from the IPLookupResult."""
+        security_info = []
+
+        if result.is_vpn is True:
+            if result.vpn_service:
+                security_info.append(f"is a VPN ({result.vpn_service})")
+            else:
+                security_info.append("is a VPN service")
+
+        if result.is_proxy is True:
+            security_info.append("is a proxy IP")
+
+        if result.is_tor is True:
+            security_info.append("is a Tor IP")
+
+        if result.is_datacenter is True:
+            security_info.append("comes from a hosting provider")
+
+        if result.is_anonymous is True and not security_info:
+            security_info.append("is anonymous")
+
+        return security_info
 
     def print_consolidated_results(self, results: list[dict[str, str]]) -> None:
         """Print consolidated results with sources that report the same data grouped together."""
         # Count occurrences of each location
-        location_count = Counter()
+        result_count = Counter()
+        security_data = {}
+
         for result in results:
             location = result["location"]
             isp_org = result.get("ISP_Org", "")
+            security = result.get("security", "")
+
             line = f"{location}" + (f" ({isp_org})" if isp_org else "")
-            location_count[line] += 1
+            result_count[line] += 1
+
+            if security:  # Collect security info separately for consolidation
+                if line not in security_data:
+                    security_data[line] = set()
+                security_data[line].add(security)
 
         # Sort by count (descending)
-        sorted_locations = sorted(location_count.items(), key=operator.itemgetter(1), reverse=True)
+        sorted_locations = sorted(result_count.items(), key=operator.itemgetter(1), reverse=True)
 
         # Print consolidated results
         for line, count in sorted_locations:
@@ -93,6 +130,11 @@ class IPFormatter:
                     == line
                 )
                 print(f"• {color(source + ':', 'blue')} {line}")
+
+            # Print security information if available
+            if line in security_data:
+                for security_info in sorted(security_data[line]):
+                    print(f"  {color('  Security:', 'yellow')} {security_info}")
 
     def standardize_country(self, country: str) -> str:
         """Standardize the country name."""

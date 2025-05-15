@@ -59,4 +59,11 @@ class IPDataLookup(IPLookupSource):
             result.isp = asn_data.get("domain")
             result.org = asn_data.get("name")
 
+        # Security information
+        if threat := data.get("threat", {}):
+            result.is_tor = threat.get("is_tor")
+            result.is_proxy = threat.get("is_proxy")
+            result.is_datacenter = threat.get("is_datacenter")
+            result.is_anonymous = threat.get("is_anonymous")
+
         return result

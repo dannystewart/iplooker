@@ -18,3 +18,11 @@ class IPLookupResult:
     city: str | None = None
     isp: str | None = None
     org: str | None = None
+
+    # Security information
+    is_vpn: bool | None = None
+    vpn_service: str | None = None
+    is_proxy: bool | None = None
+    is_tor: bool | None = None
+    is_datacenter: bool | None = None
+    is_anonymous: bool | None = None
