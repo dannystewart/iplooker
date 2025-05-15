@@ -13,11 +13,33 @@ import hashlib
 import json
 from pathlib import Path
 
+from polykit.formatters import print_color
+
 
 class APIKeyManager:
     """Manages API keys with obfuscation to prevent casual inspection."""
 
     _APP_SALT = "BuRdjP7teuDnGDrsJmwjnJBYc6FHV6vRF4xi6KEJybpyTZFVuvV2W9EFrbJ6fPLb"
+
+    @classmethod
+    def get_key(cls, service: str) -> str:
+        """Get API key for a service."""
+        # Load the encoded keys from file
+        keys_path = Path(__file__).parent / "encoded_keys.json"
+        try:
+            with Path(keys_path).open(encoding="utf-8") as f:
+                encoded_keys = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            encoded_keys = {}
+
+        # Get and decode the key for the requested service
+        encoded = encoded_keys.get(service, "")
+        if encoded:
+            return cls._decode_key(encoded, service)
+
+        # Return empty string if no key is available
+        print_color(f" No API key available for {service}", "red")
+        return ""
 
     @classmethod
     def _decode_key(cls, encoded: str, service: str) -> str:
@@ -40,25 +62,6 @@ class APIKeyManager:
             return result.decode("utf-8")
         except Exception:
             return ""
-
-    @classmethod
-    def get_key(cls, service: str) -> str:
-        """Get API key for a service."""
-        # Load the encoded keys from file
-        keys_path = Path(__file__).parent / "encoded_keys.json"
-        try:
-            with Path(keys_path).open(encoding="utf-8") as f:
-                encoded_keys = json.load(f)
-        except (FileNotFoundError, json.JSONDecodeError):
-            encoded_keys = {}
-
-        # Get and decode the key for the requested service
-        encoded = encoded_keys.get(service, "")
-        if encoded:
-            return cls._decode_key(encoded, service)
-
-        # Return empty string if no key is available
-        return ""
 
 
 if __name__ == "__main__":

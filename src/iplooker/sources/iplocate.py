@@ -2,8 +2,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
-from polykit.formatters import print_color
-
 from iplooker.api_key_manager import APIKeyManager
 from iplooker.lookup_result import IPLookupResult
 from iplooker.lookup_source import IPLookupSource
@@ -27,7 +25,6 @@ class IPLocateLookup(IPLookupSource):
 
         api_key = APIKeyManager.get_key(cls.SOURCE_NAME)
         if not api_key:
-            print_color(f" No API key available for {cls.SOURCE_NAME}", "red")
             return None
 
         params = {"apikey": api_key}
@@ -51,7 +48,7 @@ class IPLocateLookup(IPLookupSource):
             ip=ip_obj,
             source=cls.SOURCE_NAME,
             country=data.get("country"),
-            region=data.get("subdivision"),  # They call it subdivision instead of region
+            region=data.get("subdivision"),
             city=data.get("city"),
         )
 
