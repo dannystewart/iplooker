@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 
 ## [Unreleased]
 
+## [0.2.0] (2025-05-14)
+
+Version 0.2.0 is a near total rewrite.
+
+### Added
+
+- No longer scrapes results from iplocation.net, as they appear to have blocked automated lookups. (Sorry, guys!)
+- Now uses proper APIs directly from six IP lookup service providers:
+  - ip-api.com
+  - ipapi.co
+  - ipapi.is
+  - ipdata.co
+  - ipgeolocation.io
+  - ipinfo.io
+  - iplocate.io
+- Now uses an abstract base class for standardized lookup sources and results, adding modularity and making it much easier to add new sources.
+- Adds security information to IP lookup results, showing whether an IP is a VPN, proxy, Tor exit node, datacenter, or anonymous IP.
+- Adds rate limit detection for API requests.
+- Adds secure API key management with obfuscated keys.
+
 ## [0.1.14] (2025-05-14)
 
 ### Changed
@@ -117,7 +137,8 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
 <!-- Versions -->
-[unreleased]: https://github.com/dannystewart/iplooker/compare/v0.1.14...HEAD
+[unreleased]: https://github.com/dannystewart/iplooker/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/dannystewart/iplooker/compare/v0.1.14...v0.2.0
 [0.1.14]: https://github.com/dannystewart/iplooker/compare/v0.1.13...v0.1.14
 [0.1.13]: https://github.com/dannystewart/iplooker/compare/v0.1.12...v0.1.13
 [0.1.12]: https://github.com/dannystewart/iplooker/compare/v0.1.11...v0.1.12
