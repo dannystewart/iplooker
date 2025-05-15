@@ -45,3 +45,5 @@ It retrieves information from the following sources:
 - ipgeolocation.io
 - ipinfo.io
 - iplocate.io
+
+**NOTE:** The script currently uses my own API keys (obfuscated) for the lookups so that anyone can just download and go, but obviously this has potential for abuse. In the event that the script sees a lot of downloads or usage, I'll have to update it to default to free sources only with a bring-your-own-key approach, so please use responsibly!
