@@ -37,10 +37,10 @@ iplooker --lookup
 
 It retrieves information from the following sources:
 
-- ip2location
-- ipinfo
-- dbip
-- ipregistry
-- ipgeolocation
-- ipapico
-- ipbase
+- ip-api.com
+- ipapi.co
+- ipapi.is
+- ipdata.co
+- ipgeolocation.io
+- ipinfo.io
+- iplocate.io
