@@ -12,6 +12,7 @@ from typing import TYPE_CHECKING, ClassVar
 
 import requests
 from polykit.cli import PolyArgs, halo_progress, handle_interrupt
+from polykit.core import polykit_setup
 from polykit.formatters import color, print_color
 
 from iplooker.ip_formatter import IPFormatter
@@ -31,6 +32,8 @@ if TYPE_CHECKING:
 
     from iplooker.lookup_result import IPLookupResult
     from iplooker.lookup_source import IPLookupSource
+
+polykit_setup()
 
 
 class IPLooker:
