@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, ClassVar
 
-from iplooker.api_key_manager import APIKeyManager
 from iplooker.lookup_result import IPLookupResult
 from iplooker.lookup_source import IPLookupSource
 
@@ -13,35 +12,10 @@ if TYPE_CHECKING:
 class IPInfoLookup(IPLookupSource):
     """Perform IP lookups using the ipinfo.io service."""
 
-    SOURCE_NAME = "ipinfo.io"
-    API_URL = "https://ipinfo.io/{ip}/json"  # Use their standard JSON endpoint
-
-    @classmethod
-    def lookup(cls, ip: str) -> IPLookupResult | None:
-        """Look up information about an IP address using ipinfo.io."""
-        ip_obj = cls._validate_ip(ip)
-        if not ip_obj:
-            return None
-
-        api_key = APIKeyManager.get_key(cls.SOURCE_NAME)
-        if not api_key:
-            return None
-
-        params = {"token": api_key}
-        url = cls.API_URL.format(ip=ip)
-
-        data = cls._make_request(url, params=params)
-        if not data:
-            return None
-
-        # Check for error response
-        if "error" in data:
-            print(
-                f"{cls.SOURCE_NAME} error: {data.get('error', {}).get('message', 'Unknown error')}"
-            )
-            return None
-
-        return cls._parse_response(data, ip_obj)
+    SOURCE_NAME: ClassVar[str] = "ipinfo.io"
+    API_URL: ClassVar[str] = "https://ipinfo.io/{ip}/json"
+    API_KEY_PARAM: ClassVar[str | None] = "token"
+    ERROR_KEYS: ClassVar[list[str]] = ["error", "message"]
 
     @classmethod
     def _parse_response(cls, data: dict[str, Any], ip_obj: IPv4Address) -> IPLookupResult:

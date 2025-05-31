@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, ClassVar
 
 from iplooker.lookup_result import IPLookupResult
 from iplooker.lookup_source import IPLookupSource
@@ -12,26 +12,9 @@ if TYPE_CHECKING:
 class IPAPICoLookup(IPLookupSource):
     """Perform IP lookups using the ipapi.co service."""
 
-    SOURCE_NAME = "ipapi.co"
-    API_URL = "https://ipapi.co/{ip}/json/"
-
-    @classmethod
-    def lookup(cls, ip: str) -> IPLookupResult | None:
-        """Look up information about an IP address using ipapi.co."""
-        ip_obj = cls._validate_ip(ip)
-        if not ip_obj:
-            return None
-
-        url = cls.API_URL.format(ip=ip)
-        data = cls._make_request(url)
-        if not data:
-            return None
-
-        if "error" in data:
-            print(f"{cls.SOURCE_NAME} error: {data.get('reason', 'Unknown error')}")
-            return None
-
-        return cls._parse_response(data, ip_obj)
+    SOURCE_NAME: ClassVar[str] = "ipapi.co"
+    API_URL: ClassVar[str] = "https://ipapi.co/{ip}/json/"
+    REQUIRES_KEY: ClassVar[bool] = False
 
     @classmethod
     def _parse_response(cls, data: dict[str, Any], ip_obj: IPv4Address) -> IPLookupResult:

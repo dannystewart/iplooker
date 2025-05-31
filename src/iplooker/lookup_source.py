@@ -7,6 +7,8 @@ from typing import TYPE_CHECKING, Any, ClassVar
 import requests
 from polykit.formatters import print_color
 
+from iplooker.api_key_manager import APIKeyManager
+
 if TYPE_CHECKING:
     from iplooker.lookup_result import IPLookupResult
 
@@ -19,6 +21,19 @@ class IPLookupSource(ABC):
     API_URL: ClassVar[str]
     TIMEOUT: ClassVar[int] = 5
 
+    # Whether the source requires an API key
+    REQUIRES_KEY: ClassVar[bool] = True
+    REQUIRES_USER_KEY: ClassVar[bool] = False
+
+    # How to send the API key (if needed)
+    API_KEY_PARAM: ClassVar[str | None] = None  # For query params: ?key=value
+    API_KEY_HEADER: ClassVar[str | None] = None  # For headers: {"Authorization": "Bearer {key}"}
+
+    # Error response handling
+    ERROR_KEYS: ClassVar[list[str]] = ["error"]  # Keys to check for error responses
+    ERROR_MSG_KEYS: ClassVar[list[str]] = ["reason"]  # Keys for error messages in response
+    SUCCESS_VALUES: ClassVar[dict[str, Any]] = {}  # Success values, e.g. {"status": 200}
+
     @classmethod
     @abstractmethod
     def lookup(cls, ip: str) -> IPLookupResult | None:
@@ -30,8 +45,81 @@ class IPLookupSource(ABC):
         Returns:
             A LookupResult object with the lookup results, or None if the lookup failed.
         """
-        msg = "Subclasses must implement this method"
-        raise NotImplementedError(msg)
+        ip_obj = cls._validate_ip(ip)
+        if not ip_obj:
+            return None
+
+        # Get API key if required
+        key = ""
+        if cls.REQUIRES_KEY:
+            key = APIKeyManager.get_key(cls.SOURCE_NAME, requires_user_key=cls.REQUIRES_USER_KEY)
+            if not key:
+                return None
+
+        # Prepare and make the request
+        url, params, headers = cls._prepare_request(ip, key)
+        data = cls._make_request(url, params=params, headers=headers)
+        if not data:
+            return None
+
+        # Check for errors in the response
+        if not cls._is_response_valid(data):
+            return None
+
+        return cls._parse_response(data, ip_obj)
+
+    @classmethod
+    def _is_response_valid(cls, data: dict[str, Any]) -> bool:
+        """Check if the response is valid (contains no errors and meets success criteria).
+
+        Args:
+            data: The response data to validate.
+
+        Returns:
+            True if the response is valid, False otherwise.
+        """
+        # Check for error response
+        for error_key in cls.ERROR_KEYS:
+            if data.get(error_key):
+                # Try to get error message from various possible keys
+                error_msg = "Unknown error"
+
+                if hasattr(cls, "ERROR_MSG_KEYS") and cls.ERROR_MSG_KEYS:
+                    for msg_key in cls.ERROR_MSG_KEYS:
+                        if msg_value := data.get(msg_key):
+                            error_msg = msg_value
+                            break
+
+                print(f"{cls.SOURCE_NAME} error: {error_msg}")
+                return False
+
+        # Check for specific success values
+        for key, values in cls.SUCCESS_VALUES.items():
+            if data.get(key) != values:
+                error_msg = f"{key} {data.get(key)} does not match required value {values}"
+                print(f"{cls.SOURCE_NAME} error: {error_msg}")
+                return False
+
+        return True
+
+    @classmethod
+    def _prepare_request(cls, ip: str, key: str) -> tuple[str, dict[str, Any], dict[str, str]]:
+        # Prepare request parameters
+        url = cls.API_URL.format(ip=ip)
+        params = {}
+        headers = {}
+
+        # Add API key to parameters or headers as configured
+        if key:
+            if cls.API_KEY_PARAM:
+                params[cls.API_KEY_PARAM] = key
+            if cls.API_KEY_HEADER:
+                if f"{key}" in cls.API_KEY_HEADER:  # Format like "Bearer {key}"
+                    headers["Authorization"] = cls.API_KEY_HEADER.format(key=key)
+                else:  # Direct header value
+                    headers[cls.API_KEY_HEADER] = key
+
+        return url, params, headers
 
     @classmethod
     def _make_request(
@@ -93,3 +181,8 @@ class IPLookupSource(ABC):
         except ValueError:
             print(f"Invalid IP address: {ip}")
             return None
+
+    @classmethod
+    def get_env_var_name(cls) -> str:
+        """Get the environment variable name for this source's API key."""
+        return f"IPLOOKER_API_KEY_{cls.SOURCE_NAME.upper().replace('.', '')}"

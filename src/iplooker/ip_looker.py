@@ -13,6 +13,7 @@ from typing import TYPE_CHECKING, ClassVar
 import requests
 from polykit.cli import PolyArgs, halo_progress, handle_interrupt
 from polykit.core import polykit_setup
+from polykit.env import PolyEnv
 from polykit.formatters import color, print_color
 
 from iplooker.ip_formatter import IPFormatter
@@ -34,6 +35,8 @@ if TYPE_CHECKING:
     from iplooker.lookup_source import IPLookupSource
 
 polykit_setup()
+
+env = PolyEnv()
 
 
 class IPLooker:
@@ -147,6 +150,11 @@ def main() -> None:
     if not ip_address:
         print_color("No IP address provided.", "red")
         return
+
+    # Dynamically register environment variables for all sources
+    for source in IPLooker.LOOKUP_SOURCES:
+        var_name = source.get_env_var_name()
+        env.add_var(var_name, required=False, secret=True)
 
     IPLooker(ip_address)
 

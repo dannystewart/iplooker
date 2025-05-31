@@ -13,6 +13,7 @@ import hashlib
 import json
 from pathlib import Path
 
+from polykit.env import PolyEnv
 from polykit.formatters import print_color
 
 
@@ -22,8 +23,20 @@ class APIKeyManager:
     _APP_SALT = "BuRdjP7teuDnGDrsJmwjnJBYc6FHV6vRF4xi6KEJybpyTZFVuvV2W9EFrbJ6fPLb"
 
     @classmethod
-    def get_key(cls, service: str) -> str:
+    def get_key(cls, service: str, requires_user_key: bool = False) -> str:
         """Get API key for a service."""
+        # Handle services that require a user-supplied API key first
+        if requires_user_key:
+            env = PolyEnv()
+            var_name = f"IPLOOKER_API_KEY_{service.upper().replace('.', '')}"
+            try:
+                if key := env.get(var_name):
+                    return key
+            except (KeyError, ValueError):
+                pass
+
+            return ""
+
         # Load the encoded keys from file
         keys_path = Path(__file__).parent / "encoded_keys.json"
         try:

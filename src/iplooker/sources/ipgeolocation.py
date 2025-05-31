@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, ClassVar
 
-from iplooker.api_key_manager import APIKeyManager
 from iplooker.lookup_result import IPLookupResult
 from iplooker.lookup_source import IPLookupSource
 
@@ -13,32 +12,25 @@ if TYPE_CHECKING:
 class IPGeolocationLookup(IPLookupSource):
     """Perform IP lookups using the ipgeolocation.io service."""
 
-    SOURCE_NAME = "ipgeolocation.io"
-    API_URL = "https://api.ipgeolocation.io/v2/ipgeo"
+    SOURCE_NAME: ClassVar[str] = "ipgeolocation.io"
+    API_URL: ClassVar[str] = "https://api.ipgeolocation.io/v2/ipgeo"
+    API_KEY_PARAM: ClassVar[str | None] = "apiKey"
+    ERROR_KEYS: ClassVar[list[str]] = ["status"]
+    ERROR_MSG_KEYS: ClassVar[list[str]] = ["message"]
+    SUCCESS_VALUES: ClassVar[dict[str, Any]] = {"status": 200}
 
     @classmethod
-    def lookup(cls, ip: str) -> IPLookupResult | None:
-        """Look up information about an IP address using ipgeolocation.io."""
-        ip_obj = cls._validate_ip(ip)
-        if not ip_obj:
-            return None
+    def _prepare_request(cls, ip: str, key: str) -> tuple[str, dict[str, Any], dict[str, str]]:
+        """Prepare request for ipgeolocation.io API which expects IP as a query parameter."""
+        url = cls.API_URL
+        params = {"ip": ip}
+        headers = {}
 
-        api_key = APIKeyManager.get_key(cls.SOURCE_NAME)
-        if not api_key:
-            return None
+        # Add API key to parameters if provided
+        if key and cls.API_KEY_PARAM:
+            params[cls.API_KEY_PARAM] = key
 
-        params = {"apiKey": api_key, "ip": ip}
-
-        data = cls._make_request(cls.API_URL, params=params)
-        if not data:
-            return None
-
-        # Check for error response
-        if "message" in data and "status" in data and data.get("status") != 200:
-            print(f"{cls.SOURCE_NAME} error: {data.get('message')}")
-            return None
-
-        return cls._parse_response(data, ip_obj)
+        return url, params, headers
 
     @classmethod
     def _parse_response(cls, data: dict[str, Any], ip_obj: IPv4Address) -> IPLookupResult:
