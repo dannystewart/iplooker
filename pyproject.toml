@@ -1,6 +1,6 @@
 [project]
 name = "iplooker"
-version = "0.3.0"
+version = "0.3.1.dev"
 description = "Look up location, ISP, and more about an IP address from multiple sources"
 authors = [{ name = "Danny Stewart", email = "danny@stewart.cc" }]
 urls = { repository = "https://github.com/dannystewart/iplooker" }
