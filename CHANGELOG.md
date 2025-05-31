@@ -6,14 +6,34 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 
 ## [Unreleased]
 
+## [0.3.0] (2025-05-31)
+
+### Added
+
+- Adds user-provided API key support via environment variables, making the tool more flexible for users with their own API keys.
+- Adds `polykit` setup initialization to add standard base Polykit features.
+
+### Changed
+
+- Centralizes IP lookup source imports for improved code organization and maintenance.
+- Renames `IPGeoLocationLookup` to `IPGeolocationLookup` for class name consistency.
+- Updates dev dependencies (`mypy` to 1.16.0 and `ruff` to 0.11.12).
+
+### Documentation
+
+- Adds note about API key usage policy to the README.
+- Updates README with security information about version 0.2.0 features.
+- Adds information about IP address categorization capabilities (VPN, proxy, Tor exit node).
+- Reorders README sections for better documentation flow.
+- Updates the source list with the latest providers and correctly states that the application uses seven IP lookup service providers instead of six.
+
 ## [0.2.0] (2025-05-14)
 
 Version 0.2.0 is a near total rewrite.
 
 ### Added
 
-- No longer scrapes results from iplocation.net, as they appear to have blocked automated lookups. (Sorry, guys!)
-- Now uses proper APIs directly from seven IP lookup service providers:
+- No longer scrapes results from iplocation.net. Now uses proper APIs directly from seven IP lookup service providers:
   - ip-api.com
   - ipapi.co
   - ipapi.is
@@ -137,7 +157,8 @@ Version 0.2.0 is a near total rewrite.
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
 <!-- Versions -->
-[unreleased]: https://github.com/dannystewart/iplooker/compare/v0.2.0...HEAD
+[unreleased]: https://github.com/dannystewart/iplooker/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/dannystewart/iplooker/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/dannystewart/iplooker/compare/v0.1.14...v0.2.0
 [0.1.14]: https://github.com/dannystewart/iplooker/compare/v0.1.13...v0.1.14
 [0.1.13]: https://github.com/dannystewart/iplooker/compare/v0.1.12...v0.1.13
