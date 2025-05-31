@@ -94,9 +94,10 @@ class IPLookupSource(ABC):
                 return False
 
         # Check for specific success values
-        for key, values in cls.SUCCESS_VALUES.items():
-            if data.get(key) != values:
-                error_msg = f"{key} {data.get(key)} does not match required value {values}"
+        for key, expected_value in cls.SUCCESS_VALUES.items():
+            actual_value = data.get(key)
+            if actual_value is not None and actual_value != expected_value:
+                error_msg = f"{key} {actual_value} does not match required value {expected_value}"
                 print(f"{cls.SOURCE_NAME} error: {error_msg}")
                 return False
 
