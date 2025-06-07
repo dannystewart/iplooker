@@ -61,7 +61,7 @@ class IPLooker:
             self.ip_address: str = ip_address
             self.ip_obj = IPv4Address(ip_address)
             self.formatter: IPFormatter = IPFormatter(ip_address)
-            self.missing_sources: list[str] = []
+            self.missing_sources: dict[str, str] = {}  # source_name -> failure_reason
             self.results: list[IPLookupResult] = []
 
             if do_lookup:
@@ -81,11 +81,11 @@ class IPLooker:
                 if spinner:
                     spinner.text = color(f"Querying {source_class.SOURCE_NAME}...", "cyan")
 
-                result = source_class.lookup(self.ip_address)
+                result, failure_reason = source_class.lookup_with_reason(self.ip_address)
                 if result:
                     self.results.append(result)
-                else:
-                    self.missing_sources.append(source_class.SOURCE_NAME)
+                elif failure_reason:  # Only track if there's an actual error reason
+                    self.missing_sources[source_class.SOURCE_NAME] = failure_reason
 
         self.display_results()
 
@@ -107,7 +107,10 @@ class IPLooker:
         self.formatter.print_consolidated_results(formatted_results)
 
         if self.missing_sources:
-            print_color(f"\nNo data available from: {', '.join(self.missing_sources)}", "blue")
+            missing_list = [
+                f"{source} ({reason})" for source, reason in self.missing_sources.items()
+            ]
+            print_color(f"\nNo data from: {', '.join(missing_list)}", "blue")
 
     @staticmethod
     def get_external_ip() -> str | None:

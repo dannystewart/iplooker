@@ -35,7 +35,6 @@ class IPLookupSource(ABC):
     SUCCESS_VALUES: ClassVar[dict[str, Any]] = {}  # Success values, e.g. {"status": 200}
 
     @classmethod
-    @abstractmethod
     def lookup(cls, ip: str) -> IPLookupResult | None:
         """Look up information about an IP address.
 
@@ -45,28 +44,44 @@ class IPLookupSource(ABC):
         Returns:
             A LookupResult object with the lookup results, or None if the lookup failed.
         """
+        result, _ = cls.lookup_with_reason(ip)
+        return result
+
+    @classmethod
+    def lookup_with_reason(cls, ip: str) -> tuple[IPLookupResult | None, str]:
+        """Look up information about an IP address with failure reason.
+
+        Args:
+            ip: The IP address to look up.
+
+        Returns:
+            A tuple of (LookupResult or None, failure_reason).
+        """
         ip_obj = cls._validate_ip(ip)
         if not ip_obj:
-            return None
+            return None, "invalid IP"
 
         # Get API key if required
-        key = ""
-        if cls.REQUIRES_KEY:
-            key = APIKeyManager.get_key(cls.SOURCE_NAME, requires_user_key=cls.REQUIRES_USER_KEY)
-            if not key:
-                return None
+        key = APIKeyManager.get_key(cls.SOURCE_NAME, requires_user_key=cls.REQUIRES_USER_KEY)
+        if not key:
+            return None, ""  # Silently skip sources without keys
 
         # Prepare and make the request
         url, params, headers = cls._prepare_request(ip, key)
-        data = cls._make_request(url, params=params, headers=headers)
+        data, error_reason = cls._make_request_with_reason(url, params=params, headers=headers)
         if not data:
-            return None
+            return None, error_reason
 
         # Check for errors in the response
-        if not cls._is_response_valid(data):
-            return None
+        is_valid, error_reason = cls._is_response_valid_with_reason(data)
+        if not is_valid:
+            return None, error_reason
 
-        return cls._parse_response(data, ip_obj)
+        try:
+            result = cls._parse_response(data, ip_obj)
+            return result, ""
+        except Exception:
+            return None, "parse error"
 
     @classmethod
     def _is_response_valid(cls, data: dict[str, Any]) -> bool:
@@ -102,6 +117,39 @@ class IPLookupSource(ABC):
                 return False
 
         return True
+
+    @classmethod
+    def _is_response_valid_with_reason(cls, data: dict[str, Any]) -> tuple[bool, str]:
+        """Check if the response is valid (contains no errors and meets success criteria).
+
+        Args:
+            data: The response data to validate.
+
+        Returns:
+            A tuple of (is_valid, error_reason).
+        """
+        # Check for error response
+        for error_key in cls.ERROR_KEYS:
+            if data.get(error_key):
+                # Try to get error message from various possible keys
+                error_msg = "Unknown error"
+
+                if hasattr(cls, "ERROR_MSG_KEYS") and cls.ERROR_MSG_KEYS:
+                    for msg_key in cls.ERROR_MSG_KEYS:
+                        if msg_value := data.get(msg_key):
+                            error_msg = msg_value
+                            break
+
+                return False, error_msg
+
+        # Check for specific success values
+        for key, expected_value in cls.SUCCESS_VALUES.items():
+            actual_value = data.get(key)
+            if actual_value is not None and actual_value != expected_value:
+                error_msg = f"{key} {actual_value} does not match required value {expected_value}"
+                return False, error_msg
+
+        return True, ""
 
     @classmethod
     def _prepare_request(cls, ip: str, key: str) -> tuple[str, dict[str, Any], dict[str, str]]:
@@ -154,14 +202,48 @@ class IPLookupSource(ABC):
             print(f"{cls.SOURCE_NAME} API error: {response.status_code} - {response.text[:100]}")
             return None
 
-        except requests.RequestException as e:
-            print(f"Request error during {cls.SOURCE_NAME} lookup: {e}")
+        except requests.RequestException:
+            print(f"Request error during {cls.SOURCE_NAME} lookup")
             return None
         except ValueError as e:
             print(f"JSON decode error during {cls.SOURCE_NAME} lookup: {e}")
             return None
 
     @classmethod
+    def _make_request_with_reason(
+        cls,
+        url: str,
+        params: dict[str, Any] | None = None,
+        headers: dict[str, str] | None = None,
+    ) -> tuple[dict[str, Any] | None, str]:
+        """Make an HTTP request and return the JSON response.
+
+        Args:
+            url: The URL to request.
+            params: Query parameters to include in the request.
+            headers: HTTP headers to include in the request.
+
+        Returns:
+            A tuple of (parsed JSON response as a dict, error_reason).
+        """
+        try:
+            response = requests.get(url, params=params, headers=headers, timeout=cls.TIMEOUT)
+
+            if response.status_code == 429:
+                return None, "rate limited"
+
+            if response.status_code == 200:
+                return response.json(), ""
+
+            return None, f"API error: {response.status_code}"
+
+        except requests.RequestException:
+            return None, "request error"
+        except ValueError:
+            return None, "JSON decode error"
+
+    @classmethod
+    @abstractmethod
     def _parse_response(cls, data: dict[str, Any], ip_obj: IPv4Address) -> IPLookupResult | None:
         """Parse the response into a LookupResult."""
         msg = "Subclasses must implement this method"

@@ -14,7 +14,6 @@ import json
 from pathlib import Path
 
 from polykit.env import PolyEnv
-from polykit.formatters import print_color
 
 
 class APIKeyManager:
@@ -51,7 +50,6 @@ class APIKeyManager:
             return cls._decode_key(encoded, service)
 
         # Return empty string if no key is available
-        print_color(f" No API key available for {service}", "red")
         return ""
 
     @classmethod
