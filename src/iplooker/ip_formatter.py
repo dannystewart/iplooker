@@ -5,7 +5,7 @@ from collections import Counter
 from typing import TYPE_CHECKING, ClassVar
 
 import pycountry
-from polykit.formatters import color
+from polykit.text import color
 
 if TYPE_CHECKING:
     from iplooker.lookup_result import IPLookupResult

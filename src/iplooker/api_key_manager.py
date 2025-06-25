@@ -13,7 +13,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from polykit.env import PolyEnv
+from polykit import PolyEnv
 
 
 class APIKeyManager:

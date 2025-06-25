@@ -11,10 +11,10 @@ from ipaddress import IPv4Address
 from typing import TYPE_CHECKING, ClassVar
 
 import requests
-from polykit.cli import PolyArgs, halo_progress, handle_interrupt
+from polykit import PolyArgs, PolyEnv
+from polykit.cli import halo_progress, handle_interrupt
 from polykit.core import polykit_setup
-from polykit.env import PolyEnv
-from polykit.formatters import color, print_color
+from polykit.text import color, print_color
 
 from iplooker.ip_formatter import IPFormatter
 from iplooker.sources import (

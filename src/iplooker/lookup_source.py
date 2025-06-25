@@ -5,7 +5,7 @@ from ipaddress import IPv4Address
 from typing import TYPE_CHECKING, Any, ClassVar
 
 import requests
-from polykit.formatters import print_color
+from polykit.text import print_color
 
 from iplooker.api_key_manager import APIKeyManager
 

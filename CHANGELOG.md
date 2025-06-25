@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 
 ## [Unreleased]
 
+## [0.3.2] (2025-06-25)
+
+### Fixed
+
+- Updated imports to align with `polykit` 0.12.0 changes.
+- Update dependency versions, including security fixes.
+
 ## [0.3.1] (2025-06-07)
 
 ### Added
@@ -170,7 +177,8 @@ Version 0.2.0 is a near total rewrite.
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
 <!-- Versions -->
-[unreleased]: https://github.com/dannystewart/iplooker/compare/v0.3.1...HEAD
+[unreleased]: https://github.com/dannystewart/iplooker/compare/v0.3.2...HEAD
+[0.3.2]: https://github.com/dannystewart/iplooker/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/dannystewart/iplooker/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/dannystewart/iplooker/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/dannystewart/iplooker/compare/v0.1.14...v0.2.0
