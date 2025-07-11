@@ -9,7 +9,7 @@ license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.12"
 dependencies = [
-    "polykit (>=0.11.4)",
+    "polykit (>=0.13.0)",
     "pycountry (>=24.6.1,<25.0.0)",
     "requests (>=2.32.4,<3.0.0)",
 ]
@@ -32,7 +32,7 @@ classifiers = [
 [tool.poetry.group.dev.dependencies]
 mypy = ">=1.16.1"
 polykit = { path = "../polykit", develop = true }
-ruff = ">=0.12.1"
+ruff = ">=0.12.3"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
