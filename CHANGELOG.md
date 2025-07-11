@@ -6,12 +6,18 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 
 ## [Unreleased]
 
-## [0.3.2] (2025-06-25)
+## [0.3.2] (2025-07-11)
 
-### Fixed
+### Changed
 
-- Updated imports to align with `polykit` 0.12.0 changes.
-- Update dependency versions, including security fixes.
+- Updates `polykit` dependency from 0.12.0b1 to 0.13.1.dev with minimum required version set to 0.13.0.
+- Updates several dependencies:
+  - `ruff` from 0.11.12 to 0.12.3
+  - `certifi` from 2025.6.15 to 2025.7.9
+  - `typing-extensions` from 4.13.2 to 4.14.1
+  - `requests` from 2.32.3 to 2.32.4
+  - `mypy` from 1.16.0 to 1.16.1
+- Updates import paths to match new `polykit` package structure.(`polykit.formatters` → `polykit.text`, `polykit.env` → `polykit`).
 
 ## [0.3.1] (2025-06-07)
 
