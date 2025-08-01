@@ -13,7 +13,7 @@ class IPAPIIsLookup(IPLookupSource):
     """Perform IP lookups using the ipapi.is service."""
 
     SOURCE_NAME: ClassVar[str] = "ipapi.is"
-    API_URL: ClassVar[str] = "https://api.ipapi.is"
+    API_URL: ClassVar[str] = "https://api.ipapi.is?ip={ip}"
     API_KEY_PARAM: ClassVar[str | None] = "key"
 
     @classmethod
