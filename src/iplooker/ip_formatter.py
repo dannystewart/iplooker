@@ -77,18 +77,18 @@ class IPFormatter:
 
         if result.is_vpn is True:
             if result.vpn_service:
-                security_info.append(f"is a VPN ({result.vpn_service})")
+                security_info.append(f"known VPN ({result.vpn_service})")
             else:
-                security_info.append("is a VPN service")
+                security_info.append("known VPN")
 
         if result.is_proxy is True:
-            security_info.append("is a proxy IP")
+            security_info.append("known proxy IP")
 
         if result.is_tor is True:
-            security_info.append("is a Tor IP")
+            security_info.append("known Tor exit node")
 
         if result.is_datacenter is True:
-            security_info.append("comes from a hosting provider")
+            security_info.append("known datacenter IP")
 
         if result.is_anonymous is True and not security_info:
             security_info.append("is anonymous")
