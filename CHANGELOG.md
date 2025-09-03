@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 
 ## [Unreleased]
 
+## [0.3.4] (2025-09-03)
+
+### Changed
+
+- Improves security information messaging clarity by using more concise and standardized language patterns for VPN, proxy, Tor, and datacenter classifications.
+- Updates dependencies to latest versions including `certifi`, `charset-normalizer`, `mypy`, `platformdirs`, `requests`, `ruff`, and `typing-extensions` for improved security and compatibility.
+
 ## [0.3.3] (2025-08-01)
 
 ### Fixed
@@ -189,7 +196,8 @@ Version 0.2.0 is a near total rewrite.
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
 <!-- Versions -->
-[unreleased]: https://github.com/dannystewart/iplooker/compare/v0.3.3...HEAD
+[unreleased]: https://github.com/dannystewart/iplooker/compare/v0.3.4...HEAD
+[0.3.4]: https://github.com/dannystewart/iplooker/compare/v0.3.3...v0.3.4
 [0.3.3]: https://github.com/dannystewart/iplooker/compare/v0.3.2...v0.3.3
 [0.3.2]: https://github.com/dannystewart/iplooker/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/dannystewart/iplooker/compare/v0.3.0...v0.3.1
