@@ -7,7 +7,7 @@ organization. It collates the information and combines sources that say the same
 
 from __future__ import annotations
 
-from ipaddress import IPv4Address
+from ipaddress import ip_address as parse_ip_address
 from typing import TYPE_CHECKING, ClassVar
 
 import requests
@@ -59,7 +59,7 @@ class IPLooker:
     def __init__(self, ip_address: str, do_lookup: bool = True):
         try:
             self.ip_address: str = ip_address
-            self.ip_obj = IPv4Address(ip_address)
+            self.ip_obj = parse_ip_address(ip_address)
             self.formatter: IPFormatter = IPFormatter(ip_address)
             self.missing_sources: dict[str, str] = {}  # source_name -> failure_reason
             self.results: list[IPLookupResult] = []

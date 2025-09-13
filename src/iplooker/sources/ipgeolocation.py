@@ -6,7 +6,7 @@ from iplooker.lookup_result import IPLookupResult
 from iplooker.lookup_source import IPLookupSource
 
 if TYPE_CHECKING:
-    from ipaddress import IPv4Address
+    from ipaddress import IPv4Address, IPv6Address
 
 
 class IPGeolocationLookup(IPLookupSource):
@@ -33,7 +33,9 @@ class IPGeolocationLookup(IPLookupSource):
         return url, params, headers
 
     @classmethod
-    def _parse_response(cls, data: dict[str, Any], ip_obj: IPv4Address) -> IPLookupResult:
+    def _parse_response(
+        cls, data: dict[str, Any], ip_obj: IPv4Address | IPv6Address
+    ) -> IPLookupResult:
         """Parse the ipgeolocation.io response into a LookupResult."""
         result = IPLookupResult(ip=ip_obj, source=cls.SOURCE_NAME)
 

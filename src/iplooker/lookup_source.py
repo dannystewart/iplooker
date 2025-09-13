@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from ipaddress import IPv4Address
+from ipaddress import IPv4Address, IPv6Address, ip_address
 from typing import TYPE_CHECKING, Any, ClassVar
 
 import requests
@@ -20,6 +20,9 @@ class IPLookupSource(ABC):
     SOURCE_NAME: ClassVar[str]
     API_URL: ClassVar[str]
     TIMEOUT: ClassVar[int] = 5
+
+    # Whether the source supports IPv6 addresses
+    IPV6_SUPPORTED: ClassVar[bool] = True
 
     # Whether the source requires an API key
     REQUIRES_KEY: ClassVar[bool] = True
@@ -60,6 +63,10 @@ class IPLookupSource(ABC):
         ip_obj = cls._validate_ip(ip)
         if not ip_obj:
             return None, "invalid IP"
+
+        # Check if this source supports IPv6
+        if isinstance(ip_obj, IPv6Address) and not cls.IPV6_SUPPORTED:
+            return None, "IPv6 not supported"
 
         # Get API key if required
         key = ""
@@ -246,23 +253,25 @@ class IPLookupSource(ABC):
 
     @classmethod
     @abstractmethod
-    def _parse_response(cls, data: dict[str, Any], ip_obj: IPv4Address) -> IPLookupResult | None:
+    def _parse_response(
+        cls, data: dict[str, Any], ip_obj: IPv4Address | IPv6Address
+    ) -> IPLookupResult | None:
         """Parse the response into a LookupResult."""
         msg = "Subclasses must implement this method"
         raise NotImplementedError(msg)
 
     @classmethod
-    def _validate_ip(cls, ip: str) -> IPv4Address | None:
-        """Validate and convert an IP string to an IPv4Address object.
+    def _validate_ip(cls, ip: str) -> IPv4Address | IPv6Address | None:
+        """Validate and convert an IP string to an IP address object.
 
         Args:
             ip: The IP address string to validate.
 
         Returns:
-            An IPv4Address object, or None if the IP is invalid.
+            An IPv4Address or IPv6Address object, or None if the IP is invalid.
         """
         try:
-            return IPv4Address(ip)
+            return ip_address(ip)
         except ValueError:
             print(f"Invalid IP address: {ip}")
             return None

@@ -6,7 +6,7 @@ from iplooker.lookup_result import IPLookupResult
 from iplooker.lookup_source import IPLookupSource
 
 if TYPE_CHECKING:
-    from ipaddress import IPv4Address
+    from ipaddress import IPv4Address, IPv6Address
 
 
 class IPLocateLookup(IPLookupSource):
@@ -19,7 +19,9 @@ class IPLocateLookup(IPLookupSource):
     ERROR_MSG_KEYS: ClassVar[list[str]] = ["message"]
 
     @classmethod
-    def _parse_response(cls, data: dict[str, Any], ip_obj: IPv4Address) -> IPLookupResult:
+    def _parse_response(
+        cls, data: dict[str, Any], ip_obj: IPv4Address | IPv6Address
+    ) -> IPLookupResult:
         """Parse the iplocate.io response into a LookupResult."""
         result = IPLookupResult(
             ip=ip_obj,

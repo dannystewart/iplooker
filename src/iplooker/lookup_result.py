@@ -4,14 +4,14 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from ipaddress import IPv4Address
+    from ipaddress import IPv4Address, IPv6Address
 
 
 @dataclass
 class IPLookupResult:
     """Dataclass to hold the result of an IP lookup from a single source."""
 
-    ip: IPv4Address
+    ip: IPv4Address | IPv6Address
     source: str
     country: str | None = None
     region: str | None = None

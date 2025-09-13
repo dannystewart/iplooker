@@ -6,7 +6,7 @@ from iplooker.lookup_result import IPLookupResult
 from iplooker.lookup_source import IPLookupSource
 
 if TYPE_CHECKING:
-    from ipaddress import IPv4Address
+    from ipaddress import IPv4Address, IPv6Address
 
 
 class IPRegistryLookup(IPLookupSource):
@@ -18,7 +18,9 @@ class IPRegistryLookup(IPLookupSource):
     API_KEY_PARAM: ClassVar[str | None] = "key"
 
     @classmethod
-    def _parse_response(cls, data: dict[str, Any], ip_obj: IPv4Address) -> IPLookupResult:
+    def _parse_response(
+        cls, data: dict[str, Any], ip_obj: IPv4Address | IPv6Address
+    ) -> IPLookupResult:
         """Parse the IPRegistry API response into a LookupResult."""
         # Handle the case where the response has a 'results' array
         if "results" in data and isinstance(data["results"], list) and data["results"]:
