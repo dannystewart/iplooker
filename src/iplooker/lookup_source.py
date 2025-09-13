@@ -62,9 +62,11 @@ class IPLookupSource(ABC):
             return None, "invalid IP"
 
         # Get API key if required
-        key = APIKeyManager.get_key(cls.SOURCE_NAME, requires_user_key=cls.REQUIRES_USER_KEY)
-        if not key:
-            return None, ""  # Silently skip sources without keys
+        key = ""
+        if cls.REQUIRES_KEY:
+            key = APIKeyManager.get_key(cls.SOURCE_NAME, requires_user_key=cls.REQUIRES_USER_KEY)
+            if not key:
+                return None, ""  # Silently skip sources without keys
 
         # Prepare and make the request
         url, params, headers = cls._prepare_request(ip, key)
