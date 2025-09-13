@@ -74,7 +74,7 @@ class IPLooker:
         """Fetch IP data from all sources."""
         with halo_progress(
             start_message=f"Getting results for {self.ip_address}",
-            end_message="Lookup complete!",
+            end_message=None,
             fail_message=f"Failed to get results for {self.ip_address}",
         ) as spinner:
             for source_class in self.LOOKUP_SOURCES:
