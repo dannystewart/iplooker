@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 
 ## [Unreleased]
 
+## [0.3.5] (2025-09-13)
+
+### Changed
+
+- Removes the "Lookup complete" completion message for cleaner output.
+- Updates `polykit` to version 0.14.1 to support clearing the spinner after an operation.
+
 ## [0.3.4] (2025-09-03)
 
 ### Changed
@@ -196,7 +203,8 @@ Version 0.2.0 is a near total rewrite.
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
 <!-- Versions -->
-[unreleased]: https://github.com/dannystewart/iplooker/compare/v0.3.4...HEAD
+[unreleased]: https://github.com/dannystewart/iplooker/compare/v0.3.5...HEAD
+[0.3.5]: https://github.com/dannystewart/iplooker/compare/v0.3.4...v0.3.5
 [0.3.4]: https://github.com/dannystewart/iplooker/compare/v0.3.3...v0.3.4
 [0.3.3]: https://github.com/dannystewart/iplooker/compare/v0.3.2...v0.3.3
 [0.3.2]: https://github.com/dannystewart/iplooker/compare/v0.3.1...v0.3.2
