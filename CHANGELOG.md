@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 
 ## [Unreleased]
 
+## [0.4.0] (2025-09-13)
+
+### Added
+
+- Adds full IPv6 address support, extending compatibility beyond IPv4 addresses.
+
+### Changed
+
+- Improves module naming by adding domain suffixes to IP lookup service modules for better distinction between different services with similar names.
+
+### Fixed
+
+- Fixes an issue that prevented lookups for sources that don't require authentication, causing them to be silently skipped.
+
 ## [0.3.5] (2025-09-13)
 
 ### Changed
@@ -203,7 +217,8 @@ Version 0.2.0 is a near total rewrite.
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
 <!-- Versions -->
-[unreleased]: https://github.com/dannystewart/iplooker/compare/v0.3.5...HEAD
+[unreleased]: https://github.com/dannystewart/iplooker/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/dannystewart/iplooker/compare/v0.3.5...v0.4.0
 [0.3.5]: https://github.com/dannystewart/iplooker/compare/v0.3.4...v0.3.5
 [0.3.4]: https://github.com/dannystewart/iplooker/compare/v0.3.3...v0.3.4
 [0.3.3]: https://github.com/dannystewart/iplooker/compare/v0.3.2...v0.3.3
