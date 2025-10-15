@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 
 ## [Unreleased]
 
+## [0.4.1] (2025-10-15)
+
+### Removed
+
+- Removes automatic consolidation of multiple sources with identical results to make it clearer which source is reporting what.
+
 ## [0.4.0] (2025-09-13)
 
 ### Added
@@ -217,7 +223,8 @@ Version 0.2.0 is a near total rewrite.
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
 <!-- Versions -->
-[unreleased]: https://github.com/dannystewart/iplooker/compare/v0.4.0...HEAD
+[unreleased]: https://github.com/dannystewart/iplooker/compare/v0.4.1...HEAD
+[0.4.1]: https://github.com/dannystewart/iplooker/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/dannystewart/iplooker/compare/v0.3.5...v0.4.0
 [0.3.5]: https://github.com/dannystewart/iplooker/compare/v0.3.4...v0.3.5
 [0.3.4]: https://github.com/dannystewart/iplooker/compare/v0.3.3...v0.3.4
