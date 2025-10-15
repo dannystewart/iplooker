@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import operator
-from collections import Counter
 from typing import TYPE_CHECKING, ClassVar
 
 import pycountry
@@ -96,45 +94,19 @@ class IPFormatter:
         return security_info
 
     def print_consolidated_results(self, results: list[dict[str, str]]) -> None:
-        """Print consolidated results with sources that report the same data grouped together."""
-        # Count occurrences of each location
-        result_count = Counter()
-        security_data = {}
-
+        """Print results from each source individually."""
         for result in results:
+            source = result["source"]
             location = result["location"]
             isp_org = result.get("ISP_Org", "")
             security = result.get("security", "")
 
             line = f"{location}" + (f" ({isp_org})" if isp_org else "")
-            result_count[line] += 1
-
-            if security:  # Collect security info separately for consolidation
-                if line not in security_data:
-                    security_data[line] = set()
-                security_data[line].add(security)
-
-        # Sort by count (descending)
-        sorted_locations = sorted(result_count.items(), key=operator.itemgetter(1), reverse=True)
-
-        # Print consolidated results
-        for line, count in sorted_locations:
-            if count > 1:
-                print(f"• {color(f'{count} sources:', 'blue')} {line}")
-            else:  # Find the source for this unique result
-                source = next(
-                    r["source"]
-                    for r in results
-                    if f"{r['location']}"
-                    + (f" ({r.get('ISP_Org', '')})" if r.get("ISP_Org") else "")
-                    == line
-                )
-                print(f"• {color(source + ':', 'blue')} {line}")
+            print(f"• {color(source + ':', 'blue')} {line}")
 
             # Print security information if available
-            if line in security_data:
-                for security_info in sorted(security_data[line]):
-                    print(f"  {color('  Security:', 'yellow')} {security_info}")
+            if security:
+                print(f"  {color('  Security:', 'yellow')} {security}")
 
     def standardize_country(self, country: str) -> str:
         """Standardize the country name."""
