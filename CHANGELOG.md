@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 
 ## [Unreleased]
 
+## [0.5.0] (2025-10-18)
+
+### Added
+
+- Adds optional ASN (Autonomous System Number) and IP range display functionality for IP lookups.
+
 ## [0.4.1] (2025-10-15)
 
 ### Removed
@@ -223,7 +229,8 @@ Version 0.2.0 is a near total rewrite.
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
 <!-- Versions -->
-[unreleased]: https://github.com/dannystewart/iplooker/compare/v0.4.1...HEAD
+[unreleased]: https://github.com/dannystewart/iplooker/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/dannystewart/iplooker/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/dannystewart/iplooker/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/dannystewart/iplooker/compare/v0.3.5...v0.4.0
 [0.3.5]: https://github.com/dannystewart/iplooker/compare/v0.3.4...v0.3.5
