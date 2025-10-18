@@ -32,7 +32,7 @@ classifiers = [
 [tool.poetry.group.dev.dependencies]
 mypy = ">=1.18.2"
 polykit = { path = "../polykit", develop = true }
-ruff = ">=0.14.0"
+ruff = ">=0.14.1"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
