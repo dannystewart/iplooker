@@ -42,4 +42,13 @@ class IPLocateLookup(IPLookupSource):
             if not result.org:
                 result.org = asn.get("name")
 
+            # Extract ASN number and name
+            if asn_num := asn.get("asn"):
+                result.asn = f"AS{asn_num}" if not str(asn_num).startswith("AS") else str(asn_num)
+            result.asn_name = asn.get("name")
+
+            # Extract IP range if available
+            if route := asn.get("route"):
+                result.ip_range = route
+
         return result

@@ -35,6 +35,11 @@ class IPDataLookup(IPLookupSource):
         if asn_data := data.get("asn"):
             result.isp = asn_data.get("domain")
             result.org = asn_data.get("name")
+            if asn_num := asn_data.get("asn"):
+                result.asn = f"AS{asn_num}" if not str(asn_num).startswith("AS") else str(asn_num)
+            result.asn_name = asn_data.get("name")
+            if route := asn_data.get("route"):
+                result.ip_range = route
 
         # Security information
         if threat := data.get("threat", {}):

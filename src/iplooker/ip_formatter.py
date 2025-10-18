@@ -42,7 +42,9 @@ class IPFormatter:
     def __init__(self, ip_address: str):
         self.ip_address: str = ip_address
 
-    def format_lookup_result(self, result: IPLookupResult) -> dict[str, str]:
+    def format_lookup_result(
+        self, result: IPLookupResult, show_asn: bool = False, show_range: bool = False
+    ) -> dict[str, str]:
         """Convert an IPLookupResult to the expected output format."""
         country = self.standardize_country(result.country or "")
         region, city = self.standardize_region_and_city(result.region or "", result.city or "")
@@ -62,6 +64,17 @@ class IPFormatter:
         formatted_data = {"source": result.source, "location": location}
         if isp_org:
             formatted_data["ISP_Org"] = isp_org
+
+        # Add ASN information if requested and available
+        if show_asn and result.asn:
+            asn_display = result.asn
+            if result.asn_name:
+                asn_display = f"{result.asn} ({result.asn_name})"
+            formatted_data["ASN"] = asn_display
+
+        # Add IP range information if requested and available
+        if show_range and result.ip_range:
+            formatted_data["IP_Range"] = result.ip_range
 
         # Add security information if available
         if security_info := self.get_security_info(result):
@@ -99,10 +112,20 @@ class IPFormatter:
             source = result["source"]
             location = result["location"]
             isp_org = result.get("ISP_Org", "")
+            asn = result.get("ASN", "")
+            ip_range = result.get("IP_Range", "")
             security = result.get("security", "")
 
             line = f"{location}" + (f" ({isp_org})" if isp_org else "")
             print(f"• {color(source + ':', 'blue')} {line}")
+
+            # Print ASN information if available
+            if asn:
+                print(f"  {color('  ASN:', 'cyan')} {asn}")
+
+            # Print IP range information if available
+            if ip_range:
+                print(f"  {color('  IP Range:', 'cyan')} {ip_range}")
 
             # Print security information if available
             if security:

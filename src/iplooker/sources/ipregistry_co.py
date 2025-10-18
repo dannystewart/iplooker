@@ -28,7 +28,15 @@ class IPRegistryLookup(IPLookupSource):
 
         result = IPLookupResult(ip=ip_obj, source=cls.SOURCE_NAME)
 
-        # Extract location data
+        cls._extract_location_info(data, result)
+        cls._extract_connection_info(data, result)
+        cls._extract_security_info(data, result)
+
+        return result
+
+    @classmethod
+    def _extract_location_info(cls, data: dict[str, Any], result: IPLookupResult) -> None:
+        """Extract location information from the location field."""
         if location := data.get("location", {}):
             if country := location.get("country", {}):
                 result.country = country.get("name")
@@ -38,19 +46,30 @@ class IPRegistryLookup(IPLookupSource):
 
             result.city = location.get("city")
 
-        # Extract organization/ISP data
+    @classmethod
+    def _extract_connection_info(cls, data: dict[str, Any], result: IPLookupResult) -> None:
+        """Extract organization, ISP, and ASN information from connection field."""
         if connection := data.get("connection", {}):
             result.isp = connection.get("domain")
             result.org = connection.get("organization")
+
+            # Extract ASN information if available
+            if asn_num := connection.get("asn"):
+                result.asn = f"AS{asn_num}" if not str(asn_num).startswith("AS") else str(asn_num)
+            if asn_name := connection.get("organization"):
+                result.asn_name = asn_name
+            if route := connection.get("route"):
+                result.ip_range = route
+
         elif company := data.get("company", {}):
             result.org = company.get("name")
 
-        # Extract security information
+    @classmethod
+    def _extract_security_info(cls, data: dict[str, Any], result: IPLookupResult) -> None:
+        """Extract security-related information from the security field."""
         if security := data.get("security", {}):
             result.is_vpn = security.get("is_vpn")
             result.is_proxy = security.get("is_proxy")
             result.is_tor = security.get("is_tor")
             result.is_datacenter = security.get("is_cloud_provider")
             result.is_anonymous = security.get("is_anonymous")
-
-        return result

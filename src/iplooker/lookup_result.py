@@ -19,6 +19,11 @@ class IPLookupResult:
     isp: str | None = None
     org: str | None = None
 
+    # Network information
+    asn: str | None = None  # ASN number (e.g., "AS15169")
+    asn_name: str | None = None  # ASN organization name
+    ip_range: str | None = None  # IP range/block in CIDR notation
+
     # Security information
     is_vpn: bool | None = None
     vpn_service: str | None = None

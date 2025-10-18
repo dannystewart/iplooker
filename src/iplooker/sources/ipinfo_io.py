@@ -30,11 +30,25 @@ class IPInfoLookup(IPLookupSource):
             city=data.get("city"),
         )
 
-        # Extract organization information - in the standard API, org is directly provided
+        cls._extract_organization_info(data, result)
+        cls._extract_asn_info(data, result)
+        cls._extract_security_info(data, result)
+
+        # Extract IP range/CIDR if available
+        if cidr := data.get("cidr"):
+            result.ip_range = cidr
+
+        return result
+
+    @classmethod
+    def _extract_organization_info(cls, data: dict[str, Any], result: IPLookupResult) -> None:
+        """Extract organization and ISP information from the org field."""
         if org := data.get("org"):
             # The org field often has format "AS#### Organization Name"
             if " " in org and len(org.split(" ", 1)) > 1:
-                _, org_name = org.split(" ", 1)
+                asn_part, org_name = org.split(" ", 1)
+                result.asn = asn_part
+                result.asn_name = org_name
                 result.isp = org_name
                 result.org = org_name
             else:
@@ -47,20 +61,33 @@ class IPInfoLookup(IPLookupSource):
             elif isinstance(company, str):
                 result.org = company
 
-        # Try ASN field if available
-        if not result.isp and (asn := data.get("asn")):
+    @classmethod
+    def _extract_asn_info(cls, data: dict[str, Any], result: IPLookupResult) -> None:
+        """Extract ASN information from the asn field if not already set."""
+        if result.isp:
+            return  # Already have ISP info from org field
+
+        if asn := data.get("asn"):
             if isinstance(asn, dict):
                 result.isp = asn.get("name") or asn.get("domain")
+                if not result.asn:
+                    result.asn = asn.get("asn")
+                if not result.asn_name:
+                    result.asn_name = asn.get("name")
             elif isinstance(asn, str) and " " in asn:
-                _, isp_name = asn.split(" ", 1)
+                asn_part, isp_name = asn.split(" ", 1)
                 result.isp = isp_name
+                if not result.asn:
+                    result.asn = asn_part
+                if not result.asn_name:
+                    result.asn_name = isp_name
 
-        # Security information
+    @classmethod
+    def _extract_security_info(cls, data: dict[str, Any], result: IPLookupResult) -> None:
+        """Extract security-related information from the privacy field."""
         if privacy := data.get("privacy", {}):
             result.is_vpn = privacy.get("vpn")
             result.is_proxy = privacy.get("proxy")
             result.is_tor = privacy.get("tor")
             result.is_datacenter = privacy.get("hosting")
             result.vpn_service = privacy.get("service") or None
-
-        return result

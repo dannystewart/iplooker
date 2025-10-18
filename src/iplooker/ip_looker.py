@@ -56,13 +56,21 @@ class IPLooker:
         IPRegistryLookup,
     ]
 
-    def __init__(self, ip_address: str, do_lookup: bool = True):
+    def __init__(
+        self,
+        ip_address: str,
+        do_lookup: bool = True,
+        show_asn: bool = False,
+        show_range: bool = False,
+    ):
         try:
             self.ip_address: str = ip_address
             self.ip_obj = parse_ip_address(ip_address)
             self.formatter: IPFormatter = IPFormatter(ip_address)
             self.missing_sources: dict[str, str] = {}  # source_name -> failure_reason
             self.results: list[IPLookupResult] = []
+            self.show_asn: bool = show_asn
+            self.show_range: bool = show_range
 
             if do_lookup:
                 self.perform_ip_lookup()
@@ -100,7 +108,9 @@ class IPLooker:
 
         formatted_results = []
         for result in self.results:
-            formatted = self.formatter.format_lookup_result(result)
+            formatted = self.formatter.format_lookup_result(
+                result, show_asn=self.show_asn, show_range=self.show_range
+            )
             formatted_results.append(formatted)
 
         print_color(f"\n{color(f'Results for {self.ip_address}:', 'cyan')}", "blue")
@@ -133,6 +143,15 @@ def parse_args() -> argparse.Namespace:
     group.add_argument("ip_address", type=str, nargs="?", help="the IP address to look up")
     group.add_argument("-m", "--me", action="store_true", help="get your external IP address")
     group.add_argument("-l", "--lookup", action="store_true", help="get lookup for your IP address")
+
+    # Add flags for additional information
+    parser.add_argument(
+        "-a", "--asn", action="store_true", help="show ASN (Autonomous System Number) information"
+    )
+    parser.add_argument(
+        "-r", "--range", action="store_true", help="show IP range/block information"
+    )
+
     return parser.parse_args()
 
 
@@ -159,7 +178,7 @@ def main() -> None:
         var_name = source.get_env_var_name()
         env.add_var(var_name, required=False, secret=True)
 
-    IPLooker(ip_address)
+    IPLooker(ip_address, show_asn=args.asn, show_range=args.range)
 
 
 if __name__ == "__main__":

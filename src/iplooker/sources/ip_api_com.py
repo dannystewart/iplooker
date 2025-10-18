@@ -23,7 +23,7 @@ class IPAPILookup(IPLookupSource):
         cls, data: dict[str, Any], ip_obj: IPv4Address | IPv6Address
     ) -> IPLookupResult | None:
         """Parse the IP-API response into a LookupResult."""
-        return IPLookupResult(
+        result = IPLookupResult(
             ip=ip_obj,
             source=cls.SOURCE_NAME,
             country=data.get("country"),
@@ -32,3 +32,15 @@ class IPAPILookup(IPLookupSource):
             isp=data.get("isp"),
             org=data.get("org"),
         )
+
+        # Extract ASN information if available
+        if as_info := data.get("as"):
+            # Format is typically "AS#### Organization Name"
+            if " " in as_info:
+                asn_part, org_name = as_info.split(" ", 1)
+                result.asn = asn_part
+                result.asn_name = org_name
+            else:
+                result.asn = as_info
+
+        return result

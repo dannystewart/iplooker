@@ -33,15 +33,27 @@ class IPAPIIsLookup(IPLookupSource):
         if company := data.get("company", {}):
             result.org = company.get("name")
 
-        # If no org was found in company, try asn
-        if not result.org and (asn := data.get("asn", {})):
-            result.org = asn.get("org")
+        # Extract ASN information
+        if asn := data.get("asn", {}):
+            if asn_num := asn.get("asn"):
+                result.asn = f"AS{asn_num}" if not str(asn_num).startswith("AS") else str(asn_num)
+            result.asn_name = asn.get("org") or asn.get("name")
+
+            # If no org was found in company, use asn org
+            if not result.org:
+                result.org = asn.get("org")
+
+            # Use ASN domain for ISP if datacenter not available
+            if not result.isp:
+                result.isp = asn.get("domain")
+
+            # Extract IP range if available
+            if route := asn.get("route"):
+                result.ip_range = route
 
         # Extract ISP information (datacenter info can serve as ISP)
         if datacenter := data.get("datacenter", {}):
             result.isp = datacenter.get("datacenter")
-        elif not result.isp and (asn := data.get("asn", {})):
-            result.isp = asn.get("domain")
 
         # Security information
         result.is_vpn = data.get("is_vpn")
