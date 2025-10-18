@@ -1,8 +1,8 @@
 """Does an IP lookup using multiple sources.
 
-This script is designed to do an IP lookup using multiple sources. It can be used to get
-more information about an IP address, including the country, region, city, ISP, and
-organization. It collates the information and combines sources that say the same thing.
+This script will perform a lookup for an IP address (IPv4 or IPv6) using multiple sources. It can be
+used to get more information about an IP address, including the country, region, city, ISP, and any
+organization that may be associated to it.
 """
 
 from __future__ import annotations
