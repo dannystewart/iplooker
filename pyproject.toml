@@ -7,9 +7,9 @@ urls = { repository = "https://github.com/dannystewart/iplooker" }
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
-requires-python = ">=3.12"
+requires-python = ">=3.12,<4.0"
 dependencies = [
-    "polykit (>=0.14.4)",
+    "polykit (>=0.14.6)",
     "pycountry (>=24.6.1,<25.0.0)",
     "requests (>=2.32.5,<3.0.0)",
 ]
@@ -30,9 +30,9 @@ classifiers = [
 ]
 
 [tool.poetry.group.dev.dependencies]
-mypy = ">=1.18.2"
+mypy = ">=1.19.0"
 polykit = { path = "../polykit", develop = true }
-ruff = ">=0.14.1"
+ruff = ">=0.14.8"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
