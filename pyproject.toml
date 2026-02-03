@@ -30,9 +30,9 @@ classifiers = [
 ]
 
 [tool.poetry.group.dev.dependencies]
-mypy = ">=1.19.0"
+mypy = ">=1.19.1"
 polykit = { path = "../polykit", develop = true }
-ruff = ">=0.14.8"
+ruff = ">=0.14.10"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
