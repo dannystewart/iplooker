@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 
 ## [Unreleased]
 
+## [0.5.3] (2026-03-14)
+
+### Changed
+
+- Updates `polykit` to 0.15.0 and `ruff` to 0.15.6. Note that `polykit` 0.15 removes a ton of transitive dependencies that are no longer required, including Supabase-related packages, `websockets`, `yarl`, and various other libraries.
+
 ## [0.5.2] (2026-02-26)
 
 ### Fixed
@@ -241,7 +247,8 @@ Version 0.2.0 is a near total rewrite.
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
 <!-- Versions -->
-[unreleased]: https://github.com/dannystewart/iplooker/compare/v0.5.2...HEAD
+[unreleased]: https://github.com/dannystewart/iplooker/compare/v0.5.3...HEAD
+[0.5.3]: https://github.com/dannystewart/iplooker/compare/v0.5.2...v0.5.3
 [0.5.2]: https://github.com/dannystewart/iplooker/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/dannystewart/iplooker/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/dannystewart/iplooker/compare/v0.4.1...v0.5.0
